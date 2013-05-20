@@ -86,18 +86,23 @@ module fillet_linear_i(l, fillet_r, fillet_angle=90, fillet_fn=0, add=0.02) {
   }
 }
 
-module cube_negative_fillet(size, radius=-1, vertical=[3,3,3,3], top=[0,0,0,0], bottom=[0,0,0,0], $fn=0){
-
+module cube_negative_fillet(size, radius=-1, vertical=[3,3,3,3], top=[0,0,0,0], bottom=[0,0,0,0], $fn=0, vertical_fn=[0,0,0,0], top_fn=[0,0,0,0], bottom_fn=[0,0,0,0]){
+	
+	vertical_fn= ($fn>0) ? [$fn,$fn,$fn,$fn] : vertical_fn;
+	top_fn= ($fn>0) ? [$fn,$fn,$fn,$fn] : top_fn;
+	bottom_fn= ($fn>0) ? [$fn,$fn,$fn,$fn] : top_fn;
+	
+	
     j=[1,0,1,0];
 
     for (i=[0:3]) {
         if (radius > -1) {
             rotate([0, 0, 90*i]) translate([size[1-j[i]]/2, size[j[i]]/2, 0]) translate([0, 0, -size[2]/2]) rotate([0,0,180]) fillet_linear_i(l=size[2], fillet_r=radius, fillet_angle=90, fillet_fn=$fn); //fillet(radius, size[2], $fn=$fn);
         } else {
-            rotate([0, 0, 90*i]) translate([size[1-j[i]]/2, size[j[i]]/2, 0]) translate([0, 0, -size[2]/2]) rotate([0,0,180]) fillet_linear_i(l=size[2], fillet_r=vertical[i], fillet_angle=90, fillet_fn=$fn); //fillet(vertical[i], size[2], $fn=$fn);
+            rotate([0, 0, 90*i]) translate([size[1-j[i]]/2, size[j[i]]/2, 0]) translate([0, 0, -size[2]/2]) rotate([0,0,180]) fillet_linear_i(l=size[2], fillet_r=vertical[i], fillet_angle=90, fillet_fn=vertical_fn[i]); //fillet(vertical[i], size[2], $fn=$fn);
         }
-        rotate([90*i, -90, 0]) translate([size[2]/2, size[j[i]]/2, 0 ]) translate([0, 0, -size[1-j[(i)]]/2]) rotate([0,0,180]) fillet_linear_i(l=size[1-j[(i)]], fillet_r=top[(i)], fillet_angle=90, fillet_fn=$fn); // fillet(top[i], size[1-j[i]], $fn=$fn);
-        rotate([90*(4-i), 90, 0]) translate([size[2]/2, size[j[i]]/2, 0]) translate([0, 0, -size[1-j[(i)]]/2]) rotate([0,0,180]) fillet_linear_i(l=size[1-j[(i)]], fillet_r=bottom[(i)], fillet_angle=90, fillet_fn=$fn); //fillet(bottom[i], size[1-j[i]], $fn=$fn);
+        rotate([90*i, -90, 0]) translate([size[2]/2, size[j[i]]/2, 0 ]) translate([0, 0, -size[1-j[(i)]]/2]) rotate([0,0,180]) fillet_linear_i(l=size[1-j[(i)]], fillet_r=top[(i)], fillet_angle=90, fillet_fn=top_fn[i]); // fillet(top[i], size[1-j[i]], $fn=$fn);
+        rotate([90*(4-i), 90, 0]) translate([size[2]/2, size[j[i]]/2, 0]) translate([0, 0, -size[1-j[(i)]]/2]) rotate([0,0,180]) fillet_linear_i(l=size[1-j[(i)]], fillet_r=bottom[(i)], fillet_angle=90, fillet_fn=bottom_fn[i]); //fillet(bottom[i], size[1-j[i]], $fn=$fn);
 
     }
 }
@@ -146,7 +151,7 @@ module cube_positive_fillet_corners(size, radius=-1, vertical=[0,0,0,0], top=[0,
     }
 }
 
-module cube_fillet_inside(size, radius=-1, vertical=[0,0,0,0], top=[0,0,0,0], bottom=[0,0,0,0], $fn=0){
+module cube_fillet_inside(size, radius=-1, vertical=[0,0,0,0], top=[0,0,0,0], bottom=[0,0,0,0], $fn=0, vertical_fn=[0,0,0,0], top_fn=[0,0,0,0], bottom_fn=[0,0,0,0]){
     //makes CENTERED cube with round corners
     // if you give it radius, it will fillet vertical corners.
     //othervise use vertical, top, bottom arrays
@@ -158,7 +163,7 @@ module cube_fillet_inside(size, radius=-1, vertical=[0,0,0,0], top=[0,0,0,0], bo
     } else {
         difference() {
             cube(size, center=true);
-            cube_negative_fillet(size, radius, vertical, top, bottom, $fn);
+            cube_negative_fillet(size, radius, vertical, top, bottom, $fn, vertical_fn, top_fn, bottom_fn);
         }
     }
 }

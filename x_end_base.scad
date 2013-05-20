@@ -123,7 +123,7 @@ module x_end_motor() {
 			
 			translate([-base_size[0]/2,-base_size[1]/2-motor_loc-stepper_motor_padded-0.1/2 - motor_wall_thickness,0]) cube_fillet([base_size[0]/2-z_axis_smooth_rod_diameter/2-1-rod_hole_allowance/2,stepper_motor_padded+0.1+motor_wall_thickness,motor_support_height], vertical=[0,0,0,base_size[0]/2-z_axis_smooth_rod_diameter/2-1-rod_hole_allowance/2-motor_wall_thickness], top=[0,0,0,0], $fn=1);
 			
-			translate([-base_size[0]/2,-base_size[1]/2-motor_loc-stepper_motor_padded-0.1/2-motor_wall_thickness,0]) cube_fillet([motor_wall_thickness*2,motor_wall_thickness,motor_support_height+stepper_motor_padded+0.1/2], vertical=[2,0,0,motor_wall_thickness], top=[0,0,motor_wall_thickness,motor_wall_thickness], $fn=1);
+			translate([-base_size[0]/2,-base_size[1]/2-motor_loc-stepper_motor_padded-0.1/2-motor_wall_thickness,0]) cube_fillet([motor_wall_thickness*2,motor_wall_thickness,motor_support_height+stepper_motor_padded+0.1/2], vertical=[2,0,0,motor_wall_thickness], top=[0,0,motor_wall_thickness,motor_wall_thickness], top_fn=[0,0,0,0], vertical_fn=[1,0,0,1]);
 			
 			//rear idler wall bridge
 			difference() {
@@ -184,6 +184,7 @@ translate([0,base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,-(bushi
 x_end_idler();
 translate([0,base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,bushing_holder_height/2+base_size[2]+1]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=bushing_holder_height);
 */
-translate([0,base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,bushing_holder_height/2+base_size[2]+1]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=bushing_holder_height);
+
+//translate([0,base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,bushing_holder_height/2+base_size[2]+1]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=bushing_holder_height);
 
 x_end_motor();
