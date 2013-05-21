@@ -14,15 +14,11 @@ include <inc/functions.scad>;
 include <inc/nuts_screws.scad>;
 include <inc/conf_bushing.scad>;
 include <inc/conf_bearing.scad>;
+include <printer_conf.scad>;
 
 stepper_motor_height=42;
 stepper_motor_width=42;
 stepper_motor_padded=stepper_motor_width+2;
-
-layer_height = 0.3;
-width_over_thickness = 2.2;
-//calculated from settings
-single_wall_width = width_over_thickness * layer_height;
 
 use_fillets=true;
 // Custom settings here, tailor to your supplies and print settings

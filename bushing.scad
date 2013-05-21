@@ -129,7 +129,7 @@ module firm_foot(conf_b, hole_spacing=bushing_mount_hole_spacing, foot_thickness
 }
 
 module linear_bearing_clamp_with_foot(conf_b=bushing, height=bushing_mount_thickness, length=bushing_holder_height, hole_spacing=bushing_mount_hole_spacing){
-
+	echo (length);
     difference() {
         union() {
             difference() {

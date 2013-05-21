@@ -176,15 +176,15 @@ module x_end_bottom() {
 	}
 }
 
-/*
+
 translate([0,0,-base_clamp_gap]) rotate([0,180,0]) x_end_bottom();
 translate([0,base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,-(bushing_holder_height/2+base_size[2]+1)-base_clamp_gap]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=bushing_holder_height);
 
-//%translate([(base_size[0]/2)+1+bearing_width(idler_bearing), screw_dia(v_screw_hole(idler_screw, $fn=8))/2, idler_height]) rotate([0,-90,0]) idler(idler_bearing=idler_bearing);
+%translate([(base_size[0]/2)+1+bearing_width(idler_bearing), screw_dia(v_screw_hole(idler_screw, $fn=8))/2, idler_height]) rotate([0,-90,0]) idler(idler_bearing=idler_bearing);
 x_end_idler();
 translate([0,base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,bushing_holder_height/2+base_size[2]+1]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=bushing_holder_height);
-*/
+
 
 //translate([0,base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,bushing_holder_height/2+base_size[2]+1]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=bushing_holder_height);
 
-x_end_motor();
+//x_end_motor();

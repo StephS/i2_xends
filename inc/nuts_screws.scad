@@ -3,9 +3,7 @@
 // http://creativecommons.org/licenses/by/3.0/
 // Stephanie Shaltes
 include <functions.scad>;
-
-// should pull this from configuration.
-layer_height = 0.3;
+include <../printer_conf.scad>
 
 // Allowances for tolerance
 screw_hole_allowance = 0.15;
