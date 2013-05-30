@@ -90,7 +90,7 @@ module cube_negative_fillet(size, radius=-1, vertical=[3,3,3,3], top=[0,0,0,0], 
 	
 	vertical_fn= ($fn>0) ? [$fn,$fn,$fn,$fn] : vertical_fn;
 	top_fn= ($fn>0) ? [$fn,$fn,$fn,$fn] : top_fn;
-	bottom_fn= ($fn>0) ? [$fn,$fn,$fn,$fn] : top_fn;
+	bottom_fn= ($fn>0) ? [$fn,$fn,$fn,$fn] : bottom_fn;
 	
 	
     j=[1,0,1,0];

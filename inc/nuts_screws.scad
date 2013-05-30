@@ -123,7 +123,10 @@ module nut(type=nut_M3, h=0){
 
 module nut_hole(type=nut_M3, h=0){
 	//makes a nut hole
-	nut(type=v_nut_hole(type), h=h);
+	nut_hole=v_nut_hole(type);
+	// fix manifold
+	translate ([0,0,-0.001])
+	cylinder(h=((h>0) ? (h+0.002) : (nut_thickness(type))+0.002), r=nut_outer_dia(type)/2, $fn=6);
 }
 
 module nut_slot_hole(type=nut_M3, h=0){

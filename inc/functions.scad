@@ -25,6 +25,13 @@ module chamfer(x=10,y=10,z=10) {
        );
 }
 
+function sagitta_arc(r, angle) = (r* (1 - cos(angle/2) ));
+
+function sagitta(r, l) = r - sqrt(pow(r,2) - pow(l,2));
+
+function sagitta_radius(s, l) = (pow(s,2) + pow(l,2))/ (2*s);
+//function sagitta_radius(s, l) = (hypotenuse / 2) / cos(90 - atan(short side / long side));
+
 // This will size an outer diameter to fit inside dia with $fn sides
 // use this to set the diameter before passing to polyhole
 function hole_fit( dia=0,$fn=0) = dia/cos(180/(($fn>0) ? $fn : 0.01));
