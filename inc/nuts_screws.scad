@@ -6,18 +6,33 @@ include <functions.scad>;
 include <../printer_conf.scad>
 
 // Allowances for tolerance
-screw_hole_allowance = 0.15;
-screw_head_allowance = 0.5;
-screw_head_allowance_tight = 0.15;
+// Horizontal settings
+screw_hole_allowance_horizontal = 0.2;
+screw_head_allowance_horizontal = 0.5;
+screw_head_allowance_tight_horizontal = 0.2;
 
-rod_hole_allowance = 0.15;
+rod_hole_allowance_horizontal = 0.2;
 
-nut_hole_allowance = 0.15;
-nut_thickness_allowance = 0.15;
+nut_hole_allowance_horizontal = 0.2;
+nut_thickness_allowance_horizontal = 0.2;
 
-washer_hole_allowance = 0.5;
-washer_hole_allowance_tight = 0.15;
-washer_thickness_allowance = 0.01;
+washer_hole_allowance_horizontal = 0.5;
+washer_hole_allowance_tight_horizontal = 0.2;
+washer_thickness_allowance_horizontal = 0.05;
+
+// Vertical settings
+screw_hole_allowance_vertical = 0.2;
+screw_head_allowance_vertical = 0.5;
+screw_head_allowance_tight_vertical = 0.2;
+
+rod_hole_allowance_vertical = 0.2;
+
+nut_hole_allowance_vertical = 0.2;
+nut_thickness_allowance_vertical = 0.2;
+
+washer_hole_allowance_vertical = 0.5;
+washer_hole_allowance_tight_vertical = 0.2;
+washer_thickness_allowance_vertical = 0.05;
 
 //************* screw access functions *************
 function screw_dia(type)  = type[0] * type[4];
@@ -26,7 +41,15 @@ function screw_head_top_dia(type)  = type[2] * type[4];
 function screw_head_height(type) = type[3] * type[4];
 // diameter = 0; head_dia_bottom = 1; head_dia_top = 2; head_height = 3
 // multiplier = 4 (this is set to 1 since it will already be converted. So you can still use screw_dia, etc.)
-function v_screw_hole(type, hole_allowance=screw_hole_allowance, head_allowance=screw_head_allowance, $fn) = [((hole_fit(screw_dia(type),$fn))+hole_allowance), (hole_fit(screw_head_bottom_dia(type), $fn))+head_allowance, (hole_fit(screw_head_top_dia(type), $fn))+head_allowance, screw_head_height(type), 1];
+function v_screw_hole(type, hole_allowance=-1, head_allowance=-1, $fn, horizontal=false) = 
+	[((hole_fit(screw_dia(type),$fn))+ ((hole_allowance==-1) ? ((horizontal) ? screw_hole_allowance_horizontal : screw_hole_allowance_vertical) : hole_allowance)),
+	(hole_fit(screw_head_bottom_dia(type), $fn))+ ((head_allowance==-1) ? ((horizontal) ? screw_head_allowance_horizontal : screw_head_allowance_vertical) : head_allowance),
+	(hole_fit(screw_head_top_dia(type), $fn))+ ((head_allowance==-1) ? ((horizontal) ? screw_head_allowance_horizontal : screw_head_allowance_vertical) : head_allowance),
+	screw_head_height(type),
+	1];
+
+//hole_allowance=-1;
+//echo (hole_fit(screw_dia(screw_M4_socket_head),$fn)+ ((hole_allowance==-1) ? ((false) ? screw_hole_allowance_horizontal : screw_hole_allowance_vertical) : hole_allowance));
 
 //************* nut access functions *************
 function nut_dia(type)  = type[0] * type[3];
@@ -34,15 +57,25 @@ function nut_flat(type)  = type[1] * type[3];
 function nut_outer_dia(type)  = (nut_flat(type)/cos(30));
 function nut_thickness(type)  = type[2] * type[3];
 // diameter = 0; nut flat = 1; nut thickness = 2; multiplier = 3 (multiplier should be set to 1, since values are already converted)
-function v_nut_hole(type) = [nut_dia(type), nut_flat(type)+nut_hole_allowance, nut_thickness(type)+nut_thickness_allowance, 1];
+function v_nut_hole(type, hole_allowance=-1, thickness_allowance=-1, horizontal=false) = 
+	[nut_dia(type),
+	nut_flat(type)+ ((hole_allowance==-1) ? ((horizontal) ? nut_hole_allowance_horizontal : nut_hole_allowance_vertical) : hole_allowance),
+	nut_thickness(type)+ ((thickness_allowance==-1) ? ((horizontal) ? nut_thickness_allowance_horizontal : nut_thickness_allowance_vertical) : thickness_allowance),
+	1];
 
 //************* washer access functions *************
 function washer_dia(type)  = type[0] * type[3];
 function washer_outer_dia(type)  = type[1] * type[3];
 function washer_thickness(type)  = type[2] * type[3];
 // diameter = 0; outer diameter = 1; washer thickness = 2; multiplier = 3 (multiplier should be set to 1, since values are already converted)
-function v_washer_hole(type, hole_allowance=washer_hole_allowance, thickness_allowance=washer_thickness_allowance, $fn) = [washer_dia(type), (hole_fit(washer_outer_dia(type), $fn))+hole_allowance, washer_thickness(type)+thickness_allowance, 1];
+function v_washer_hole(type, hole_allowance=-1, thickness_allowance=-1, $fn, horizontal=false) =
+	[washer_dia(type),
+	(hole_fit(washer_outer_dia(type), $fn)) + ((hole_allowance==-1) ? ((horizontal) ? washer_hole_allowance_horizontal : washer_hole_allowance_vertical) : hole_allowance),
+	washer_thickness(type) + ((thickness_allowance==-1) ? ((horizontal) ? washer_thickness_allowance_horizontal : washer_thickness_allowance_vertical) : thickness_allowance) ,
+	1];
 
+function v_rod_hole(d=0, allowance=-1, $fn=0, horizontal=false) =
+	hole_fit(d, (($fn>0) ? $fn : poly_sides(d))) + ((allowance==-1) ? ((horizontal) ? rod_hole_allowance_horizontal : rod_hole_allowance_vertical) : allowance);
 
 // modules
 module screw(h=20, head_drop=0, type=screw_M3_socket_head, washer_type=0, poly=false, $fn=0, hole=false ){
@@ -72,10 +105,10 @@ module screw(h=20, head_drop=0, type=screw_M3_socket_head, washer_type=0, poly=f
 	}
 }
 
-module screw_hole(h=20, length=0, head_drop=0, type=screw_M3_socket_head, washer_type=0, $fn=0, hole_support=false, allowance=screw_hole_allowance ){
+module screw_hole(h=20, length=0, head_drop=0, type=screw_M3_socket_head, washer_type=0, $fn=0, hole_support=false, allowance=screw_hole_allowance_vertical, horizontal=false){
     //makes screw with head
 
-    screw=v_screw_hole(type, hole_allowance = allowance, head_allowance = ((screw_head_bottom_dia(type) < screw_head_top_dia(type)) ? screw_head_allowance_tight : screw_head_allowance), $fn=$fn);
+    screw=v_screw_hole(type, hole_allowance = allowance, head_allowance = ((screw_head_bottom_dia(type) < screw_head_top_dia(type)) ? ((horizontal) ? screw_head_allowance_tight_horizontal : screw_head_allowance_tight_vertical) : ((horizontal) ? screw_head_allowance_horizontal : screw_head_allowance_vertical)), $fn=$fn, horizontal=horizontal);
     
     head_bottom_dia= (washer_type[0]>screw_head_bottom_dia(screw)) ? washer_outer_dia(v_washer_hole(washer_type, $fn=$fn)) : screw_head_bottom_dia(screw);
     head_top_dia= (washer_type[0]>screw_head_top_dia(screw)) ? washer_outer_dia(v_washer_hole(washer_type, $fn=$fn)) : screw_head_top_dia(screw);
@@ -109,10 +142,10 @@ module screw_hole(h=20, length=0, head_drop=0, type=screw_M3_socket_head, washer
 	}
 }
 
-module rod_hole(d=0, h=0, allowance=rod_hole_allowance, length=0, $fn=0, center=false){
+module rod_hole(d=0, h=0, allowance=-1, length=0, $fn=0, center=false, horizontal=false){
 	//makes a rod hole
 	n=(($fn>0) ? $fn : poly_sides(d));
-	dia= hole_fit(d, n) + allowance;
+	dia= hole_fit(d, n) + ((allowance==-1) ? ((horizontal) ? rod_hole_allowance_horizontal : rod_hole_allowance_vertical) : allowance);
 	cylinder_slot(h=h, r=dia/2, length=length, $fn=$fn, center=center);
 }
 
@@ -121,19 +154,20 @@ module nut(type=nut_M3, h=0){
 	cylinder(h=((h>0) ? h : nut_thickness(type)), r=nut_outer_dia(type)/2, $fn=6);
 }
 
-module nut_hole(type=nut_M3, h=0){
+module nut_hole(type=nut_M3, h=0, horizontal=false){
 	//makes a nut hole
-	nut_hole=v_nut_hole(type);
+	nut_h=v_nut_hole(type, horizontal=horizontal);
 	// fix manifold
-	translate ([0,0,-0.001])
-	cylinder(h=((h>0) ? (h+0.002) : (nut_thickness(type))+0.002), r=nut_outer_dia(type)/2, $fn=6);
+	//translate ([0,0,-0.001])
+	cylinder(h=((h>0) ? (h+0.001) : (nut_thickness(nut_h)+0.001)), r=nut_outer_dia(nut_h)/2, $fn=6);
 }
 
-module nut_slot_hole(type=nut_M3, h=0){
+module nut_slot_hole(type=nut_M3, h=0, horizontal=false){
 	//makes a nut slot
+	nut_h=v_nut_hole(type, horizontal=horizontal);
 	union() {
-		nut_hole(type=type);
-		translate([0, -(nut_flat(v_nut_hole(type)))/2, 0]) cube([h+0.01, (nut_flat(v_nut_hole(type))), (nut_thickness(v_nut_hole(type)))]);
+		nut_hole(type=type, horizontal=horizontal);
+		translate([0, -(nut_flat(nut_h))/2, 0]) cube([h+0.01, (nut_flat(nut_h)), (nut_thickness(nut_h)+0.001)]);
 	}
 }
 
@@ -143,9 +177,10 @@ module washer(type=washer_M3, $fn=0){
 	render(convexity = 4) cylinder_poly(h=washer_thickness(type), r=washer_outer_dia(type)/2, $fn=$fn);
 }
 
-module washer_hole(type=washer_M3, $fn=0){
+module washer_hole(type=washer_M3, $fn=0, horizontal=false){
 	//makes a washer hole
-	washer(type=v_washer_hole(type=type, $fn=$fn), $fn=$fn);
+	washer_h=v_washer_hole(type=type, $fn=$fn, horizontal=horizontal);
+	cylinder_poly(h=washer_thickness(washer_h)+0.001, r=washer_outer_dia(washer_h)/2, $fn=$fn);
 }
 
 // Screw parameters

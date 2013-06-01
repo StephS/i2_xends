@@ -16,8 +16,9 @@ module x_end_base(vertical=[5,5,5,5], top=[0,0,0,0]) {
 		
 		translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,-0.5]) rotate([0,0,-90]) rod_hole(d=z_axis_smooth_rod_diameter+2,h=x_end_base_size[2]+1, length=x_end_base_size[1]-lead_screw_to_smooth_rod_separation);
 		
-		translate([x_axis_smooth_rod_separation/2,0,-x_end_base_clamp_gap/2]) rotate([90,0,0]) rod_hole(d=x_axis_smooth_rod_diameter, h=x_end_base_size[1]+1, $fn=8, center=true);
-		translate([-x_axis_smooth_rod_separation/2,0,-x_end_base_clamp_gap/2]) rotate([90,0,0]) rod_hole(d=x_axis_smooth_rod_diameter, h=x_end_base_size[1]+1, $fn=8, center=true);
+		// smooth rod cutouts
+		translate([x_axis_smooth_rod_separation/2,0,-x_end_base_clamp_gap/2]) rotate([90,0,0]) rotate([0,0,18]) rod_hole(d=x_axis_smooth_rod_diameter, h=x_end_base_size[1]+1, $fn=10, center=true, horizontal=true);
+		translate([-x_axis_smooth_rod_separation/2,0,-x_end_base_clamp_gap/2]) rotate([90,0,0]) rotate([0,0,18]) rod_hole(d=x_axis_smooth_rod_diameter, h=x_end_base_size[1]+1, $fn=10, center=true, horizontal=true);
 	}
 }
 
@@ -73,8 +74,11 @@ module x_end_idler() {
 			}
 			//rear idler wall bridge
 			difference() {
-				translate([x_end_base_size[0]/2-idler_wall_thickness-6.65/2,-x_end_base_size[1]/4,idler_wall_height/2+x_end_base_size[2]/2-0.005]) cube_fillet([6.65,x_end_base_size[1]/2,idler_wall_height-x_end_base_size[2]+0.01], center=true, vertical=[0,0,0,0], top=[0,0,bearing_out_dia(idler_bearing)/2,0]);	//idler wall
-				translate([0,-x_end_base_size[1]/2-3,x_end_base_size[2]-0.005]) cylinder_poly(r=28, h=idler_wall_height-x_end_base_size[2]+0.01);	//idler wall
+				translate([x_end_base_size[0]/2-idler_wall_thickness-((x_end_base_size[0] - x_end_bushing_mount_wall_width)/2 - idler_wall_thickness)-0.4,-x_end_base_size[1]/2,x_end_base_size[2]-0.01])
+					cube_fillet([ (x_end_base_size[0] - x_end_bushing_mount_wall_width)/2 - idler_wall_thickness +0.5,x_end_base_size[1]/2,idler_wall_height-x_end_base_size[2]+0.01], vertical=[0,0,0,0], top=[0,0,bearing_out_dia(idler_bearing)/2,0]);	//idler wall
+				translate([x_end_base_size[0]/2-idler_wall_thickness-sagitta_radius((x_end_base_size[0] - x_end_bushing_mount_wall_width)/2 - idler_wall_thickness, x_end_base_size[1]/2-z_bushing_mount_thickness),-x_end_base_size[1]/2,x_end_base_size[2]-0.01])
+					cylinder_poly(r=sagitta_radius((x_end_base_size[0] - x_end_bushing_mount_wall_width)/2 - idler_wall_thickness, x_end_base_size[1]/2-z_bushing_mount_thickness), h=idler_wall_height-x_end_base_size[2]+0.02);
+				//cylinder_poly(r=28, h=idler_wall_height-x_end_base_size[2]+0.01);	//idler wall
 			}
 		}
 		translate([0,0,x_end_base_size[2]+1]) bushing_mount_screws(screw_length=12);
@@ -100,12 +104,13 @@ module x_end_idler() {
 		translate([smooth_rod_clamp_screw_hole_spacing_x/2,-smooth_rod_clamp_screw_hole_spacing_y/2,x_end_base_size[2]]) rotate ([180,0,0]) screw_hole(type=smooth_rod_clamp_screw, h=x_end_base_size[2], head_drop=screw_head_height(smooth_rod_clamp_screw));
 	}
 	// support wall for idler hole
-	translate([x_end_base_size[0]/2-idler_wall_thickness-nut_thickness(v_nut_hole(idler_nut))-(12-nut_thickness(v_nut_hole(idler_nut))+0.1)/2, (single_wall_width+0.1)/2, idler_height]) cube([12-nut_thickness(v_nut_hole(idler_nut))+0.1,single_wall_width+0.1,screw_dia(v_screw_hole(idler_screw, $fn=8))],center=true);
+	translate([x_end_base_size[0]/2-idler_wall_thickness-nut_thickness(v_nut_hole(idler_nut))-(12-nut_thickness(v_nut_hole(idler_nut))+0.1)/2, (single_wall_width+0.1)/2, idler_height])
+		cube([12-nut_thickness(v_nut_hole(idler_nut))+0.1,single_wall_width+0.1,screw_dia(v_screw_hole(idler_screw, $fn=8))],center=true);
 	}
 }
 
 module x_end_motor() {
-	motor_loc=-x_end_base_size[1]/2+z_bushing_mount_thickness+bushing_z[1]*2+screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8))/2 + 0.3 +hole_fit(nut_outer_dia(v_nut_hole(nut_M3))+0.5)/2+2;
+	motor_loc=-x_end_base_size[1]/2+z_bushing_mount_thickness+bushing_z[1]*2+screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8))/2 + 0.3 +hole_fit(nut_outer_dia(v_nut_hole(nut_M3))+0.5)/2+3;
 	
 	//X end block
 	difference(){
@@ -119,9 +124,11 @@ module x_end_motor() {
 			// motor mount supports
 			translate([-x_end_base_size[0]/2,-x_end_base_size[1]/2-motor_loc+0.1/2,0]) cube_fillet([x_end_motor_wall_thickness,motor_loc+0.1,stepper_motor_padded+x_end_motor_support_height+0.1/2], vertical=[0,0,0,0], top=[4.5,0,0,0], $fn=1);
 			
-			translate([-x_end_base_size[0]/2,-x_end_base_size[1]/2-motor_loc,0]) cube_fillet([x_end_base_size[0]/2-z_axis_smooth_rod_diameter/2-1-rod_hole_allowance/2,motor_loc+0.1,x_end_base_size[2]], vertical=[0,0,0,0], top=[0,0,x_end_base_size[2]-x_end_motor_support_height,0], $fn=1);
+			// bottom step down
+			translate([-x_end_base_size[0]/2,-x_end_base_size[1]/2-motor_loc,0]) cube_fillet([x_end_base_size[0]/2-v_rod_hole(d=z_axis_smooth_rod_diameter, $fn=10)/2-1,motor_loc+0.1,x_end_base_size[2]], vertical=[0,0,0,0], top=[0,0,x_end_base_size[2]-x_end_motor_support_height,0], $fn=1);
 			
-			translate([-x_end_base_size[0]/2,-x_end_base_size[1]/2-motor_loc-stepper_motor_padded-0.1/2 - x_end_motor_wall_thickness,0]) cube_fillet([x_end_base_size[0]/2-z_axis_smooth_rod_diameter/2-1-rod_hole_allowance/2,stepper_motor_padded+0.1+x_end_motor_wall_thickness,x_end_motor_support_height], vertical=[0,0,0,x_end_base_size[0]/2-z_axis_smooth_rod_diameter/2-1-rod_hole_allowance/2-x_end_motor_wall_thickness], top=[0,0,0,0], $fn=1);
+			// bottom support
+			translate([-x_end_base_size[0]/2,-x_end_base_size[1]/2-motor_loc-stepper_motor_padded-0.1/2 - x_end_motor_wall_thickness,0]) cube_fillet([x_end_base_size[0]/2-v_rod_hole(d=z_axis_smooth_rod_diameter, $fn=10)/2-1,stepper_motor_padded+0.1+x_end_motor_wall_thickness,x_end_motor_support_height], vertical=[0,0,0,x_end_base_size[0]/2-v_rod_hole(d=z_axis_smooth_rod_diameter, $fn=10)/2-1-x_end_motor_wall_thickness], top=[0,0,0,0], $fn=1);
 			
 			translate([-x_end_base_size[0]/2,-x_end_base_size[1]/2-motor_loc-stepper_motor_padded-0.1/2-x_end_motor_wall_thickness,0]) cube_fillet([x_end_motor_wall_thickness*2,x_end_motor_wall_thickness,x_end_motor_support_height+stepper_motor_padded+0.1/2], vertical=[2,0,0,x_end_motor_wall_thickness], top=[0,0,x_end_motor_wall_thickness,x_end_motor_wall_thickness], top_fn=[0,0,0,0], vertical_fn=[1,0,0,1]);
 			

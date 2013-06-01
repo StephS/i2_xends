@@ -171,27 +171,36 @@ module linear_bearing_clamp_with_foot(conf_b=bushing_x, foot_thickness=z_bushing
                         translate([-bushing_foot_len(conf_b), 0, adjust_bushing_len(conf_b, 45) - 8]) mirror([0, 0, 1]) firm_foot(conf_b);
                     }
                 }
-                linear_negative_preclean();
+                linear_negative_preclean(conf_b = conf_b);
             }
-            linear(center=true, h=foot_height);
+            linear(conf_b= conf_b, center=true, h=foot_height);
         }
 }
 
 module bearing_clamp_bevel(conf_b=bushing_x, w1=0, w2=0, h=bushing_x[2]+bushing_retainer_add){
-	translate ([(conf_b[1]+nut_outer_dia(v_nut_hole(nut_M3)))/2.75+0.3,0,h/2])
+	translate ([(conf_b[1]+nut_outer_dia(v_nut_hole(nut_M3)))/2.65+0.3,0,h/2])
 	rotate([0,90,0])
 	trapezoid(cube=[h, w1, conf_b[1]+nut_outer_dia(v_nut_hole(nut_M3))/1.39+0.3], x1=0, x2=0, y1=(w1-w2)/2, y2=(w1-w2)/2, center=true);
 }
 
 // w1 is outside dimensions, w2 is beveled dimensions
 module bearing_clamp_screw_trap(conf_b=bushing_x, w1=0, w2=0){
-	union() {
-		translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, -(w2/2), 0])
-			rotate([90,0,0]) rotate([0,0,180/8]) cylinder(r2=hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.2,$fn=8), r1=hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.5+(w1-w2)/2,$fn=8), h=(w1-w2)/2, $fn=8);
-		translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, (w1/2), 0])
-			rotate([90,0, 0]) rotate([0,0,180/8]) cylinder(r1=hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.2,$fn=8), r2=hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.5+(w1-w2)/2,$fn=8), h=(w1-w2)/2, $fn=8);
-		translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, 0, 0])
-			rotate([90,0, 0]) rotate([0,0,180/8]) cylinder(r=hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.5+(w1-w2)/2,$fn=8), h=w2, $fn=8, center=true);	
+	intersection() {
+		union() {
+			translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, -(w2/2)+0.01, 0])
+				rotate([90,0,0]) rotate([0,0,180/8]) cylinder(r2=hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.2,$fn=8), r1=hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.5+(w1-w2)/2,$fn=8)+1, h=(w1-w2)/2+1+0.01, $fn=8);
+			translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, (w1/2)+1-0.01, 0])
+				rotate([90,0, 0]) rotate([0,0,180/8]) cylinder(r1=hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.2,$fn=8), r2=hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.5+(w1-w2)/2,$fn=8)+1, h=(w1-w2)/2+1+0.01, $fn=8);
+			translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, 0, 0])
+				rotate([90,0, 0]) rotate([0,0,180/8]) cylinder(r=hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.5+(w1-w2)/2,$fn=8)+1, h=w2+0.01, $fn=8, center=true);
+		}
+		translate([(screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3)-sagitta_radius( (w1-w2)/2, hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.5+(w1-w2)/2,$fn=8)+1)/2+ (hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.5+(w1-w2)/2,$fn=8)+1)-(w1-w2)/2, 0, 0])
+			rotate([90,0, 0]) rotate([0,0,180/8])
+			cylinder_poly(r=
+			sagitta_radius( (w1-w2)/2,
+			hole_fit(nut_outer_dia(v_nut_hole(nut_M3))/2+0.5+(w1-w2)/2,$fn=8)+1)/2,
+			h=w1+3,
+			center=true);
 	}
 }
 
@@ -202,9 +211,9 @@ module bearing_clamp_screw_negative(conf_b=bushing_x, w1=0, w2=0){
 				nut_hole(type=nut_M3);
 	
 		// screw head hole
-		translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, (w1/2), 0])
+		translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, (w1/2)+1, 0])
 			rotate([90,0, 0])
-				screw_hole(type=screw_M3_socket_head, h=w1+2, head_drop=(w1-w2)/2, washer_type=washer_M3, $fn=8);
+				screw_hole(type=screw_M3_socket_head, h=w1+2, head_drop=(w1-w2)/2+1, washer_type=washer_M3, $fn=8);
 }
 
 module linear_negative(conf_b = bushing_x, h = 0){
@@ -231,6 +240,6 @@ module linear(conf_b = bushing_x, h = bushing_x[2]+bushing_retainer_add, center=
 //linear_bearing(conf_b=bushing, h=bushing_holder_height);
 
 //translate([0,0,(bushing_x[2]+bushing_retainer_add)/2])
-linear_bearing_clamp_with_foot();
+linear_bearing_clamp_with_foot(conf_b=conf_b_lm8uu);
     //translate([0,52,0]) bearing_clamp2(w1=30,w2=20 );
     //linear(bushing_x, 86);
