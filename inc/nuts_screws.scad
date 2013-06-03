@@ -183,6 +183,49 @@ module washer_hole(type=washer_M3, $fn=0, horizontal=false){
 	cylinder_poly(h=washer_thickness(washer_h)+0.001, r=washer_outer_dia(washer_h)/2, $fn=$fn);
 }
 
+// Use this for screw clamps
+// Length will be l + outher_radius_add*2
+module screw_trap(l=20, screw=screw_M3_socket_head, nut=nut_M3, add_inner_support=0.5, outer_radius_add=2, $fn=8){
+	inner_r = (
+		(screw_head_top_dia(v_screw_hole(screw,$fn=$fn)) > nut_outer_dia(v_nut_hole(nut)))
+		? screw_head_top_dia(v_screw_hole(screw,$fn=$fn)) : nut_outer_dia(v_nut_hole(nut))
+		)/2 + add_inner_support;
+	intersection() {
+		rotate([0,0,180/$fn])
+		union() {
+			translate([0, 0, l/2])
+				cylinder(r2=inner_r, r1=inner_r + outer_radius_add, h=outer_radius_add, $fn=$fn);
+			
+			translate([0, 0, -l/2-outer_radius_add])
+				cylinder(r1=inner_r, r2=inner_r + outer_radius_add, h=outer_radius_add, $fn=$fn);
+			
+			translate([0, 0, 0])
+				cylinder(r=inner_r + outer_radius_add, h=l+0.002, $fn=$fn, center=true);
+		}
+		
+		translate([(inner_r)+outer_radius_add/2-sagitta_radius( inner_r-outer_radius_add/2,
+			(inner_r + outer_radius_add)), 0, 0])
+			cylinder_poly(r=
+			sagitta_radius( inner_r-outer_radius_add/2,
+			(inner_r + outer_radius_add)),
+			h=l+outer_radius_add*2+1,
+			center=true);
+			
+	}
+}
+
+module screw_nut_negative(l=20, screw=screw_M3_socket_head, nut=nut_M3, nut_drop=0, head_drop=0, washer_type=washer_M3, $fn=8, center=false){
+		translate([0,0,((center) ? -(l+nut_drop)/2 : 0)]) {
+		// nut trap
+		translate([0,0,l+nut_thickness(v_nut_hole(nut))])
+			rotate([180,0,0])
+				nut_hole(type=nut_M3);
+	
+		// screw head hole
+		screw_hole(type=screw, h=l+0.001, head_drop=head_drop, washer_type=washer_type, $fn=8);
+	}
+}
+
 // Screw parameters
 // diameter = 0
 // head_dia_bottom = 1
