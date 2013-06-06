@@ -59,60 +59,6 @@ conf_fan_30mm = [ 24, 40, 10];
 //40mm
 conf_fan_40mm = [ 32, 40, 10];
 
-// *********************************************
-// X Axis configuration
-// *********************************************
-x_axis_smooth_rod_separation = 50;
-bushing_x = conf_b_lm8uu;
-x_axis_smooth_rod_diameter = (bushing_x[0]*2);;
-
-// X-Carriage Configuration
-x_carriage_base_length = 80;
-x_carriage_base_width = (bushing_x[1] + bushing_clamp_outer_radius_add)*2+x_axis_smooth_rod_separation;
-x_carriage_base_height = 5;
-x_carriage_base_size= [x_carriage_base_width, x_carriage_base_length, x_carriage_base_height];
-x_carriage_base_support_thickness = 5;
-
-x_carriage_belt_clamp_thickness = 5;
-x_carriage_belt_clamp_screw=screw_M3_socket_head;
-x_carriage_belt_clamp_nut=nut_M3;
-x_carriage_belt_support_width=10;
-x_carriage_belt_clamp_width=12;
-x_carriage_belt_clamp_offset=1;
-x_carriage_belt_clamp_nut_support_outer_dia = (nut_outer_dia(v_nut_hole(x_carriage_belt_clamp_nut))+1)/2;
-x_carriage_belt_clamp_screw_offset= screw_dia(v_screw_hole(x_carriage_belt_clamp_screw))/2+0.3;
-
-x_carriage_tensioner_screw= screw_M4_socket_head;
-x_carriage_tensioner_nut= nut_M4;
-x_carriage_tensioner_nut_support_outer_dia = (nut_outer_dia(v_nut_hole(x_carriage_tensioner_nut))+5);
-x_carriage_tensioner_nut_support_thickness = ((nut_thickness(v_nut_hole(x_carriage_tensioner_nut))+3)> x_carriage_base_size[2]) ? (nut_thickness(v_nut_hole(x_carriage_tensioner_nut))+3) : x_carriage_base_size[2];
-x_carriage_tensioner_offset=3;
-
-x_carriage_fan= conf_fan_40mm;
-x_carriage_fan_screw= screw_M3_socket_head;
-x_carriage_fan_nut= nut_M3;
-x_carriage_fan_nut_wall=2;
-x_carriage_fan_nut_height = (nut_outer_dia(v_nut_hole(x_carriage_fan_nut))/2+1);
-x_carriage_fan_nut_wall_height= x_carriage_fan_nut_height+ (nut_outer_dia(v_nut_hole(x_carriage_fan_nut))/2+1);
-x_carriage_fan_nut_wall_thickness = x_carriage_fan_nut_wall*2+nut_thickness(v_nut_hole(x_carriage_fan_nut));
-
-x_extruder_mount_nut = nut_M4;
-x_extruder_mount_screw = screw_M4_socket_head;
-x_extruder_mount_screw_spacing = 50;
-x_extruder_mount_hole_diameter = 39;
-
-// X-end Configuration
-x_end_base_size = [x_carriage_base_width, 40, 9]; //[68.2, 40, 9];
-x_end_base_clamp_gap=1;
-x_end_motor_support_height=3;
-x_end_motor_wall_thickness=6;
-x_end_bushing_mount_hole_spacing = (max_bushing_outside_diameter + bushing_clamp_outer_radius_add*2 + 2 + screw_head_top_dia(v_screw_hole(screw_M4_socket_head))/2);
-x_end_bushing_mount_wall_width = (x_end_bushing_mount_hole_spacing +13);
-
-smooth_rod_clamp_screw_hole_spacing_x = 32;
-smooth_rod_clamp_screw_hole_spacing_y = 27;
-smooth_rod_clamp_screw = screw_M4_socket_head;
-smooth_rod_clamp_nut = nut_M4;
 
 // *********************************************
 // Z Axis configuration
@@ -136,9 +82,65 @@ bushing_rod_to_wall = 16;
 z_bushing_foot_height= (max_bushing_length+bushing_retainer_add);
 z_bushing_mount_thickness = 5;
 
-idler_screw = screw_M8_socket_head;
-idler_nut = nut_M8;
-idler_height = 27; // 25
-idler_bearing = bearing_608;
-idler_wall_height=z_bushing_foot_height+x_end_base_size[2]+1; //(idler_height+ bearing_out_dia(idler_bearing)/2);
-idler_wall_thickness=6;
+// *********************************************
+// X Axis configuration
+// *********************************************
+x_axis_smooth_rod_separation = 50;
+bushing_x = conf_b_lm8uu;
+x_axis_smooth_rod_diameter = (bushing_x[0]*2);;
+
+// X-Carriage Configuration
+x_carriage_base_length = 80;
+x_carriage_base_width = (bushing_x[1] + bushing_clamp_outer_radius_add)*2+x_axis_smooth_rod_separation;
+x_carriage_base_height = 5;
+x_carriage_base_size= [x_carriage_base_width, x_carriage_base_length, x_carriage_base_height];
+x_carriage_base_support_thickness = 5;
+
+x_carriage_belt_clamp_thickness = 5;
+x_carriage_belt_clamp_screw=screw_M3_socket_head;
+x_carriage_belt_clamp_nut=nut_M3;
+x_carriage_belt_support_width=10;
+x_carriage_belt_clamp_width=12;
+x_carriage_belt_clamp_offset=washer_thickness(washer_M8);
+x_carriage_belt_clamp_nut_support_outer_dia = (nut_outer_dia(v_nut_hole(x_carriage_belt_clamp_nut))+1)/2;
+x_carriage_belt_clamp_screw_offset= screw_dia(v_screw_hole(x_carriage_belt_clamp_screw))/2+0.3;
+
+x_carriage_tensioner_screw= screw_M4_socket_head;
+x_carriage_tensioner_nut= nut_M4;
+x_carriage_tensioner_nut_support_outer_dia = (nut_outer_dia(v_nut_hole(x_carriage_tensioner_nut))+5);
+x_carriage_tensioner_nut_support_thickness = ((nut_thickness(v_nut_hole(x_carriage_tensioner_nut))+3)> x_carriage_base_size[2]) ? (nut_thickness(v_nut_hole(x_carriage_tensioner_nut))+3) : x_carriage_base_size[2];
+x_carriage_tensioner_offset=3;
+
+x_carriage_fan= conf_fan_40mm;
+x_carriage_fan_screw= screw_M3_socket_head;
+x_carriage_fan_nut= nut_M3;
+x_carriage_fan_nut_wall=2;
+x_carriage_fan_nut_height = (nut_outer_dia(v_nut_hole(x_carriage_fan_nut))/2+1);
+x_carriage_fan_nut_wall_height= x_carriage_fan_nut_height+ (nut_outer_dia(v_nut_hole(x_carriage_fan_nut))/2+1);
+x_carriage_fan_nut_wall_thickness = x_carriage_fan_nut_wall*2+nut_thickness(v_nut_hole(x_carriage_fan_nut));
+
+x_extruder_mount_nut = nut_M4;
+x_extruder_mount_screw = screw_M4_socket_head;
+x_extruder_mount_screw_spacing = 50;
+x_extruder_mount_hole_diameter = 39;
+
+// X-end Configuration
+x_end_base_size = [x_carriage_base_width, 40, 10]; //[68.2, 40, 9];
+x_end_base_clamp_gap=1;
+x_end_motor_support_height=3;
+x_end_motor_wall_thickness=6;
+x_end_bushing_mount_hole_spacing = (max_bushing_outside_diameter + bushing_clamp_outer_radius_add*2 + 2 + screw_head_top_dia(v_screw_hole(screw_M4_socket_head))/2);
+x_end_bushing_mount_wall_width = (x_end_bushing_mount_hole_spacing +16);
+
+x_end_idler_screw = screw_M8_socket_head;
+x_end_idler_nut = nut_M8;
+x_end_idler_washer = washer_M8;
+x_end_idler_height = 27; // 25
+x_end_idler_bearing = bearing_608;
+x_end_idler_wall_height=z_bushing_foot_height+x_end_base_size[2]+1; //(idler_height+ bearing_out_dia(idler_bearing)/2);
+x_end_idler_wall_thickness=6;
+
+smooth_rod_clamp_screw_hole_spacing_x = 32;
+smooth_rod_clamp_screw_hole_spacing_y = 27;
+smooth_rod_clamp_screw = screw_M4_socket_head;
+smooth_rod_clamp_nut = nut_M4;

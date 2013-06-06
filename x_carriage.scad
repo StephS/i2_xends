@@ -48,13 +48,13 @@ module x_carriage() {
 				// fan screw hole
 				translate([0, 0, x_carriage_fan_nut_height]) rotate([-90,0,0]) screw_hole(type=x_carriage_fan_screw, h=x_carriage_fan_nut_wall_thickness, $fn=8);
 				// fan nut hole
-				translate([0, x_carriage_fan_nut_wall, x_carriage_fan_nut_height]) rotate([-90,0,0]) rotate([0,0,90]) nut_slot_hole(type=x_carriage_fan_nut, h=x_carriage_fan_nut_height);
+				translate([0, x_carriage_fan_nut_wall, x_carriage_fan_nut_height]) rotate([-90,0,0]) rotate([0,0,90]) nut_hole(type=x_carriage_fan_nut, nut_slot=x_carriage_fan_nut_height);
 			}
 			translate([x_carriage_fan[0]/2,0,0]){
 				// fan screw hole
 				translate([0,0, x_carriage_fan_nut_height]) rotate([-90,0,0]) screw_hole(type=x_carriage_fan_screw, h=x_carriage_fan_nut_wall_thickness, $fn=8);
 				// fan nut hole		
-				translate([0,x_carriage_fan_nut_wall, x_carriage_fan_nut_height]) rotate([-90,0,0]) rotate([0,0,90]) nut_slot_hole(type=x_carriage_fan_nut, h=x_carriage_fan_nut_height);
+				translate([0,x_carriage_fan_nut_wall, x_carriage_fan_nut_height]) rotate([-90,0,0]) rotate([0,0,90]) nut_hole(type=x_carriage_fan_nut, nut_slot=x_carriage_fan_nut_height);
 			}
 		}
 		render() translate([0, x_carriage_base_size[1]/2-x_carriage_fan_nut_wall_thickness, 0]) {	
@@ -62,13 +62,13 @@ module x_carriage() {
 				// fan screw hole
 				translate([0, 0, x_carriage_fan_nut_height]) rotate([-90,0,0]) screw_hole(type=x_carriage_fan_screw, h=x_carriage_fan_nut_wall_thickness, $fn=8);
 				// fan nut hole
-				translate([0, x_carriage_fan_nut_wall, x_carriage_fan_nut_height]) rotate([-90,0,0]) rotate([0,0,90]) nut_slot_hole(type=x_carriage_fan_nut, h=x_carriage_fan_nut_height);
+				translate([0, x_carriage_fan_nut_wall, x_carriage_fan_nut_height]) rotate([-90,0,0]) rotate([0,0,90]) nut_hole(type=x_carriage_fan_nut, nut_slot=x_carriage_fan_nut_height);
 			}
 			translate([x_carriage_fan[0]/2,0,0]){
 				// fan screw hole
 				translate([0,0, x_carriage_fan_nut_height]) rotate([-90,0,0]) screw_hole(type=x_carriage_fan_screw, h=x_carriage_fan_nut_wall_thickness, $fn=8);
 				// fan nut hole		
-				translate([0,x_carriage_fan_nut_wall, x_carriage_fan_nut_height]) rotate([-90,0,0]) rotate([0,0,90]) nut_slot_hole(type=x_carriage_fan_nut, h=x_carriage_fan_nut_height);
+				translate([0,x_carriage_fan_nut_wall, x_carriage_fan_nut_height]) rotate([-90,0,0]) rotate([0,0,90]) nut_hole(type=x_carriage_fan_nut, nut_slot=x_carriage_fan_nut_height);
 			}
 		}
 		

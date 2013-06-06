@@ -154,20 +154,14 @@ module nut(type=nut_M3, h=0){
 	cylinder(h=((h>0) ? h : nut_thickness(type)), r=nut_outer_dia(type)/2, $fn=6);
 }
 
-module nut_hole(type=nut_M3, h=0, horizontal=false){
+module nut_hole(type=nut_M3, thickness=0, nut_slot=0, horizontal=false){
 	//makes a nut hole
 	nut_h=v_nut_hole(type, horizontal=horizontal);
 	// fix manifold
 	//translate ([0,0,-0.001])
-	cylinder(h=((h>0) ? (h+0.001) : (nut_thickness(nut_h)+0.001)), r=nut_outer_dia(nut_h)/2, $fn=6);
-}
-
-module nut_slot_hole(type=nut_M3, h=0, horizontal=false){
-	//makes a nut slot
-	nut_h=v_nut_hole(type, horizontal=horizontal);
 	union() {
-		nut_hole(type=type, horizontal=horizontal);
-		translate([0, -(nut_flat(nut_h))/2, 0]) cube([h+0.01, (nut_flat(nut_h)), (nut_thickness(nut_h)+0.001)]);
+		cylinder(h=((thickness>0) ? (thickness+0.01) : (nut_thickness(nut_h)+0.01)), r=nut_outer_dia(nut_h)/2, $fn=6);
+		if (nut_slot>0) translate([0, -(nut_flat(nut_h))/2, 0]) cube([nut_slot+0.01, (nut_flat(nut_h)), (nut_thickness(nut_h)+0.01)]);
 	}
 }
 
@@ -180,7 +174,7 @@ module washer(type=washer_M3, $fn=0){
 module washer_hole(type=washer_M3, $fn=0, horizontal=false){
 	//makes a washer hole
 	washer_h=v_washer_hole(type=type, $fn=$fn, horizontal=horizontal);
-	cylinder_poly(h=washer_thickness(washer_h)+0.001, r=washer_outer_dia(washer_h)/2, $fn=$fn);
+	cylinder_poly(h=washer_thickness(washer_h)+0.01, r=washer_outer_dia(washer_h)/2, $fn=$fn);
 }
 
 // Use this for screw clamps
@@ -214,17 +208,19 @@ module screw_trap(l=20, screw=screw_M3_socket_head, nut=nut_M3, add_inner_suppor
 	}
 }
 
-module screw_nut_negative(l=20, screw=screw_M3_socket_head, nut=nut_M3, nut_drop=0, head_drop=0, washer_type=washer_M3, $fn=8, center=false){
-		translate([0,0,((center) ? -(l+nut_drop)/2 : 0)]) {
+module screw_nut_negative(l=20, screw=screw_M3_socket_head, nut=nut_M3, nut_slot=0, nut_drop=0, head_drop=0, washer_type, $fn=8, center=false){
+	translate([0,0,((center) ? -(l)/2 : 0)]) {
 		// nut trap
-		translate([0,0,l+nut_thickness(v_nut_hole(nut))])
-			rotate([180,0,0])
-				nut_hole(type=nut_M3);
+		translate([0,0,l-nut_drop])
+			nut_hole(type=nut_M3, nut_slot=nut_slot);
 	
 		// screw head hole
-		screw_hole(type=screw, h=l+0.001, head_drop=head_drop, washer_type=washer_type, $fn=8);
+		screw_hole(type=screw, h=l-head_drop+0.001, head_drop=head_drop, washer_type=washer_type, $fn=8);
 	}
 }
+
+//translate([3,0,0]) %cylinder(r=3, h=20, center=true);
+//screw_nut_negative(l=20, screw=screw_M3_socket_head, nut=nut_M3, nut_slot=10, nut_drop=1, head_drop=1, $fn=8, center=true);
 
 // Screw parameters
 // diameter = 0

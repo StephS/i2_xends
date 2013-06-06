@@ -111,11 +111,14 @@ module linear_bearing(conf_b=bushing_x, h=0, wide_base=false){
 							
 						}
 						if (h > 2*conf_b[2] + bushing_retainer_add || conf_b[2] > 45) {
-							translate([0,0, (h-bushing_retainer_add-conf_b[2])/2]) translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, 0, 0]) rotate([90,0, 0]) screw_nut_negative(l=2*bushing_clamp_outer_radius(conf_b)+2, screw=screw_M3_socket_head, nut=nut_M3, nut_drop=2, head_drop=2, washer_type=washer_M3, $fn=8, center=true);
-							translate([0,0, -(h-bushing_retainer_add-conf_b[2])/2]) translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, 0, 0]) rotate([90,0, 0]) screw_nut_negative(l=2*bushing_clamp_outer_radius(conf_b)+2, screw=screw_M3_socket_head, nut=nut_M3, nut_drop=2, head_drop=2, washer_type=washer_M3, $fn=8, center=true);
+							translate([0,0, (h-bushing_retainer_add-conf_b[2])/2]) translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, 0, 0]) rotate([90,0, 0]) 
+								screw_nut_negative(l=2*bushing_clamp_outer_radius(conf_b)+2, screw=screw_M3_socket_head, nut=nut_M3, nut_drop=2, head_drop=2, washer_type=washer_M3, $fn=8, center=true);
+							translate([0,0, -(h-bushing_retainer_add-conf_b[2])/2]) translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, 0, 0]) rotate([90,0, 0]) 
+								screw_nut_negative(l=2*bushing_clamp_outer_radius(conf_b)+2, screw=screw_M3_socket_head, nut=nut_M3, nut_drop=2, head_drop=2, washer_type=washer_M3, $fn=8, center=true);
 						}
 						else {
-							translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, 0, 0]) rotate([90,0, 0]) screw_nut_negative(l=2*bushing_clamp_outer_radius(conf_b)+2, screw=screw_M3_socket_head, nut=nut_M3, nut_drop=2, head_drop=2, washer_type=washer_M3, $fn=8, center=true);
+							translate([screw_dia(v_screw_hole(screw_M3_socket_head,$fn=8)) / 2 + conf_b[1] + 0.3, 0, 0]) rotate([90,0, 0]) 
+								screw_nut_negative(l=2*bushing_clamp_outer_radius(conf_b)+4, screw=screw_M3_socket_head, nut=nut_M3, nut_drop=2, head_drop=2, washer_type=washer_M3, $fn=8, center=true);
 						}
 		        	    translate ([-(bushing_clamp_outer_radius(conf_b)/2), 0, 0]) cube([bushing_clamp_outer_radius(conf_b), bushing_clamp_outer_radius(conf_b)*2 , h+1],center=true);
 					}
@@ -129,7 +132,7 @@ module linear_bearing(conf_b=bushing_x, h=0, wide_base=false){
 				if (wide_base) {
 					union () {
 						difference() {
-							translate([-bushing_foot_len(conf_b), -(conf_b[1]+bushing_clamp_outer_radius_add), -clamp_length/2]) cube([conf_b[1]+bushing_clamp_outer_radius_add, (conf_b[1]+bushing_clamp_outer_radius_add)*2, clamp_length]);
+							translate([-bushing_foot_len(conf_b), -(conf_b[1]+bushing_clamp_outer_radius_add), -clamp_length/2]) cube([conf_b[1]+bushing_clamp_outer_radius_add+0.1, (conf_b[1]+bushing_clamp_outer_radius_add)*2, clamp_length]);
 							cylinder_poly(r=conf_b[1]+0.1, h=clamp_length+1, center=true);
 						}
 						translate([-bushing_foot_len(conf_b), -7, -clamp_length/2]) cube([4, 14, clamp_length]);
@@ -142,15 +145,16 @@ module linear_bearing(conf_b=bushing_x, h=0, wide_base=false){
 		        linear_negative(conf_b, clamp_length);
 		    }
 		}
-		translate([-bushing_foot_len(conf_b)-3.5, -conf_b[1], -(clamp_length+1)/2]) cube([4, conf_b[1]*2, clamp_length+1]);
+		translate([-bushing_foot_len(conf_b)-3.5, -(conf_b[1]+bushing_clamp_outer_radius_add)-0.5, -(clamp_length+1)/2]) cube([4, (conf_b[1]+bushing_clamp_outer_radius_add)*2+1, clamp_length+1]);
 	}
 }
 
 // this should be more parametric
-module firm_foot(conf_b, hole_spacing=x_end_bushing_mount_hole_spacing, foot_thickness=z_bushing_mount_thickness, h=z_bushing_foot_height, mounting_screw=z_bushing_mounting_screw){
+module firm_foot(conf_b, hole_spacing=x_end_bushing_mount_hole_spacing, foot_thickness=z_bushing_mount_thickness, h=z_bushing_foot_height, mounting_screw=z_bushing_mounting_screw, width_add=14){
+	
     difference(){
         union() {
-            translate([foot_thickness/2,0,0]) cube_fillet([foot_thickness, hole_spacing+12, h], center=true, vertical=[2,2,2,2]);
+            translate([foot_thickness/2,0,0]) cube_fillet([foot_thickness, hole_spacing+width_add, h], center=true, vertical=[2,2,2,2]);
         }
         
         translate([foot_thickness, hole_spacing/2, h/2-6]) rotate([0, -90, 0]) screw_hole(type=mounting_screw, head_drop=0, $fn=8);
@@ -217,5 +221,6 @@ module linear(conf_b = bushing_x, h = bushing_x[2]+bushing_retainer_add, center=
 
 //translate([0,0,(bushing_x[2]+bushing_retainer_add)/2])
 linear_bearing_clamp_with_foot(conf_b=conf_b_lm8uu);
+//linear(conf_b = bushing_x, center=true, wide_base=true);
     //translate([0,52,0]) bearing_clamp2(w1=30,w2=20 );
     //linear(bushing_x, 86);
