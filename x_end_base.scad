@@ -191,9 +191,9 @@ module x_end_bottom() {
 /*
 translate([0,0,-x_end_base_clamp_gap]) rotate([0,180,0]) x_end_bottom();
 translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,-(x_end_base_size[2]+1)-x_end_base_clamp_gap-z_bushing_foot_height]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
-
-%translate([(x_end_base_size[0]/2)+1+bearing_width(x_end_idler_bearing), screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))/2, x_end_idler_height]) rotate([0,-90,0]) idler(x_end_idler_bearing=x_end_idler_bearing);
 translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,x_end_base_size[2]+1]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
+//idler
+%translate([(x_end_base_size[0]/2)+1+bearing_width(x_end_idler_bearing), screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))/2, x_end_idler_height]) rotate([0,-90,0]) idler(x_end_idler_bearing=x_end_idler_bearing);
 */
 
 // Print one of the motor and idler, two x_end_bottom, and 4 of the bearing clamps

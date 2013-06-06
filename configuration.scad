@@ -101,6 +101,7 @@ x_carriage_belt_clamp_screw=screw_M3_socket_head;
 x_carriage_belt_clamp_nut=nut_M3;
 x_carriage_belt_support_width=10;
 x_carriage_belt_clamp_width=12;
+// set this to the same as x_end_idler_washer
 x_carriage_belt_clamp_offset=washer_thickness(washer_M8);
 x_carriage_belt_clamp_nut_support_outer_dia = (nut_outer_dia(v_nut_hole(x_carriage_belt_clamp_nut))+1)/2;
 x_carriage_belt_clamp_screw_offset= screw_dia(v_screw_hole(x_carriage_belt_clamp_screw))/2+0.3;
@@ -126,7 +127,7 @@ x_extruder_mount_hole_diameter = 39;
 
 // X-end Configuration
 x_end_base_size = [x_carriage_base_width, 40, 10]; //[68.2, 40, 9];
-x_end_base_clamp_gap=1;
+x_end_base_clamp_gap=0.5;
 x_end_motor_support_height=3;
 x_end_motor_wall_thickness=6;
 x_end_bushing_mount_hole_spacing = (max_bushing_outside_diameter + bushing_clamp_outer_radius_add*2 + 2 + screw_head_top_dia(v_screw_hole(screw_M4_socket_head))/2);
