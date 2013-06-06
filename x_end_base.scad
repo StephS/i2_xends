@@ -31,30 +31,30 @@ module bushing_mount_wall() {
 	//translate([0,0,x_end_base_size[2]+1]) {
 module bushing_mount_screws(screw_length=12) {
 		// screw holes
-		translate([x_end_bushing_mount_hole_spacing/2, screw_length, z_bushing_foot_height-6]) rotate([90, 0, 0]) screw_hole(type=z_bushing_mounting_screw, head_drop=0, $fn=8, h=screw_length+1);
-		translate([-x_end_bushing_mount_hole_spacing/2, screw_length, z_bushing_foot_height-6]) rotate([90, 0,0]) screw_hole(type=z_bushing_mounting_screw, head_drop=0, $fn=8, h=screw_length+1);
-		translate([x_end_bushing_mount_hole_spacing/2, screw_length, 6]) rotate([90, 0, 0]) screw_hole(type=z_bushing_mounting_screw, head_drop=0, $fn=8, h=screw_length+1);
-       	translate([-x_end_bushing_mount_hole_spacing/2, screw_length, 6]) rotate([90, 0,0]) screw_hole(type=z_bushing_mounting_screw, head_drop=0, $fn=8, h=screw_length+1);
+		translate([x_end_bushing_mount_hole_spacing/2, screw_length, z_bushing_foot_height-6]) rotate([90, 0, 0]) screw_hole(type=z_bushing_mounting_screw, head_drop=0, $fn=8, h=screw_length+1, horizontal=true);
+		translate([-x_end_bushing_mount_hole_spacing/2, screw_length, z_bushing_foot_height-6]) rotate([90, 0,0]) screw_hole(type=z_bushing_mounting_screw, head_drop=0, $fn=8, h=screw_length+1, horizontal=true);
+		translate([x_end_bushing_mount_hole_spacing/2, screw_length, 6]) rotate([90, 0, 0]) screw_hole(type=z_bushing_mounting_screw, head_drop=0, $fn=8, h=screw_length+1, horizontal=true);
+       	translate([-x_end_bushing_mount_hole_spacing/2, screw_length, 6]) rotate([90, 0,0]) screw_hole(type=z_bushing_mounting_screw, head_drop=0, $fn=8, h=screw_length+1, horizontal=true);
 			
 		// Nut traps
-		translate([x_end_bushing_mount_hole_spacing/2, screw_length, z_bushing_foot_height-6]) rotate([90, 0, 0]) nut_hole(type=z_bushing_mounting_nut, thickness=screw_length-6);
-		translate([-x_end_bushing_mount_hole_spacing/2, screw_length, z_bushing_foot_height-6]) rotate([90, 0,0]) nut_hole(type=z_bushing_mounting_nut, thickness=screw_length-6);
-		translate([x_end_bushing_mount_hole_spacing/2, screw_length, 6]) rotate([90, 0, 0]) nut_hole(type=z_bushing_mounting_nut, thickness=screw_length-6);
-       	translate([-x_end_bushing_mount_hole_spacing/2, screw_length, 6]) rotate([90, 0,0]) nut_hole(type=z_bushing_mounting_nut, thickness=screw_length-6);
+		translate([x_end_bushing_mount_hole_spacing/2, screw_length, z_bushing_foot_height-6]) rotate([90, 0, 0]) nut_hole(type=z_bushing_mounting_nut, thickness=screw_length-6, horizontal=true);
+		translate([-x_end_bushing_mount_hole_spacing/2, screw_length, z_bushing_foot_height-6]) rotate([90, 0,0]) nut_hole(type=z_bushing_mounting_nut, thickness=screw_length-6, horizontal=true);
+		translate([x_end_bushing_mount_hole_spacing/2, screw_length, 6]) rotate([90, 0, 0]) nut_hole(type=z_bushing_mounting_nut, thickness=screw_length-6, horizontal=true);
+       	translate([-x_end_bushing_mount_hole_spacing/2, screw_length, 6]) rotate([90, 0,0]) nut_hole(type=z_bushing_mounting_nut, thickness=screw_length-6, horizontal=true);
 }
 
 module rod_clamp_screws(nuts=false) {
 	head_drop=(z_bushing_foot_height+1.02);
 	
 	translate([smooth_rod_clamp_screw_hole_spacing_x/2,smooth_rod_clamp_screw_hole_spacing_y/2,x_end_base_size[2]+((nuts) ? 0 : head_drop)])
-		rotate ([180,0,0]) screw_hole(type=smooth_rod_clamp_screw, h=x_end_base_size[2], head_drop=((nuts) ? 0 : (screw_head_height(smooth_rod_clamp_screw)+head_drop)));
+		rotate ([180,0,0]) screw_hole(type=smooth_rod_clamp_screw, h=x_end_base_size[2], head_drop=((nuts) ? 0 : (screw_head_height(smooth_rod_clamp_screw)+head_drop)), allowance=screw_hole_allowance_vertical*2.5);
 	translate([-smooth_rod_clamp_screw_hole_spacing_x/2,smooth_rod_clamp_screw_hole_spacing_y/2,x_end_base_size[2]+((nuts) ? 0 : head_drop)]) 
-		rotate ([180,0,0]) screw_hole(type=smooth_rod_clamp_screw, h=x_end_base_size[2], head_drop=((nuts) ? 0 : (screw_head_height(smooth_rod_clamp_screw)+head_drop)));
+		rotate ([180,0,0]) screw_hole(type=smooth_rod_clamp_screw, h=x_end_base_size[2], head_drop=((nuts) ? 0 : (screw_head_height(smooth_rod_clamp_screw)+head_drop)), allowance=screw_hole_allowance_vertical*2.5);
 			
 	translate([-smooth_rod_clamp_screw_hole_spacing_x/2,-smooth_rod_clamp_screw_hole_spacing_y/2,x_end_base_size[2]+((nuts) ? 0 : head_drop)]) 
-		rotate ([180,0,0]) screw_hole(type=smooth_rod_clamp_screw, h=x_end_base_size[2], head_drop=((nuts) ? 0 : (screw_head_height(smooth_rod_clamp_screw)+head_drop)));
+		rotate ([180,0,0]) screw_hole(type=smooth_rod_clamp_screw, h=x_end_base_size[2], head_drop=((nuts) ? 0 : (screw_head_height(smooth_rod_clamp_screw)+head_drop)), allowance=screw_hole_allowance_vertical*2.5);
 	translate([smooth_rod_clamp_screw_hole_spacing_x/2,-smooth_rod_clamp_screw_hole_spacing_y/2,x_end_base_size[2]+((nuts) ? 0 : head_drop)]) 
-		rotate ([180,0,0]) screw_hole(type=smooth_rod_clamp_screw, h=x_end_base_size[2], head_drop=((nuts) ? 0 : (screw_head_height(smooth_rod_clamp_screw)+head_drop)));
+		rotate ([180,0,0]) screw_hole(type=smooth_rod_clamp_screw, h=x_end_base_size[2], head_drop=((nuts) ? 0 : (screw_head_height(smooth_rod_clamp_screw)+head_drop)), allowance=screw_hole_allowance_vertical*2.5);
 	if (nuts) {
 		translate([smooth_rod_clamp_screw_hole_spacing_x/2,smooth_rod_clamp_screw_hole_spacing_y/2,x_end_base_size[2]+head_drop])
 			rotate ([180,0,0]) nut_hole(type=smooth_rod_clamp_nut, thickness=nut_thickness(v_nut_hole(smooth_rod_clamp_nut))+head_drop);
