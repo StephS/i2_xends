@@ -59,6 +59,29 @@ conf_fan_30mm = [ 24, 40, 10];
 //40mm
 conf_fan_40mm = [ 32, 40, 10];
 
+// *********************************************
+// Frame configuration
+// *********************************************
+
+frame_center_cutout_width = 110;
+frame_threaded_rod=screw_M8;
+frame_threaded_rod_diameter = 8;
+frame_threaded_rod_allowance = 0.2;
+
+frame_threaded_rod_distance = 320;
+frame_vertex_rod_to_rod_distance = 58.5;
+frame_rod_distance_to_edge = 15;
+frame_rod_distance_to_cutout = 30;
+frame_center_rod_offset=3;
+
+frame_bottom_vertex_angle = 30;
+
+frame_vertex_y =frame_vertex_rod_to_rod_distance * cos(frame_bottom_vertex_angle);
+frame_vertex_x =frame_vertex_rod_to_rod_distance * sin(frame_bottom_vertex_angle);
+frame_top_vertex_y =frame_threaded_rod_distance * cos(frame_bottom_vertex_angle);
+
+frame_plate_width = frame_vertex_x*2+frame_threaded_rod_distance+frame_rod_distance_to_edge*2;
+frame_plate_height = frame_vertex_y+frame_top_vertex_y+frame_rod_distance_to_edge*2;
 
 // *********************************************
 // Z Axis configuration
@@ -81,6 +104,16 @@ bushing_rod_to_wall = 16;
 
 z_bushing_foot_height= (max_bushing_length+bushing_retainer_add);
 z_bushing_mount_thickness = 5;
+
+// Z motor mount Configuration
+z_motor_mount_thickness = 4;
+z_motor_mount_width = ceil(washer_outer_dia(washer_M8));
+z_motor_mount_height = 55;
+z_motor_mount_clamp_wall_thickness = lead_screw_to_smooth_rod_separation-stepper_motor_padded/2;
+z_motor_mount_clamp_screw = screw_M4_socket_head;
+z_motor_mount_clamp_nut = nut_M4;
+z_motor_mount_clamp_seperation = (v_rod_hole(d=z_axis_smooth_rod_diameter, $fn=10, horizontal=true) + screw_dia(v_screw_hole(screw_M4_socket_head)) + 3);
+z_motor_mount_clamp_height = v_rod_hole(d=z_axis_smooth_rod_diameter, $fn=10, horizontal=true)/2 + 5;
 
 // *********************************************
 // X Axis configuration

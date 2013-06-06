@@ -20,6 +20,23 @@ module nema17(places=[1,1,1,1], size=15.5, h=10, holes=false, shadow=false, head
     }
 }
 
+module nema17_inwards_slot(places=[1,1,1,1], size=15.5, h=10, holes=false, shadow=false, head_drop=5, slot_length=0, $fn=24, hole_support=false){
+    for (i=[0:3]) {
+        if (places[i] == 1) {
+            rotate([0, 0, 90*i]) translate([size, size, 0]) {
+                if (holes) {
+                    rotate([0, 0, -135]) screw_hole(type=screw_M3_socket_head, head_drop=head_drop, length=slot_length, $fn=$fn, h=h, hole_support=hole_support);
+                } else {
+                    rotate([0, 0, -90*i]) cylinder_poly(h=h, r=5.5, $fn=$fn);
+                }
+            }
+        }
+    }
+    if (shadow != false) {
+        %translate ([0, 0, shadow+3+42]) mirror([0,0,1]) nema17_motor();
+    }
+}
+
 module nema17_motor(height=42, color=true) {
 	union() {
         % translate ([0, 0, height/2]) cube([42,42,height], center = true);
@@ -30,21 +47,28 @@ module nema17_motor(height=42, color=true) {
 	}
 }
 
-module motor_plate(thickness=10, width=stepper_motor_width, slot_length=0, vertical=[0,0,0,0], head_drop=5, hole_support=false, $fn=0){
+module motor_plate(thickness=10, width=stepper_motor_width, slot_length=0, vertical=[0,0,0,0], head_drop=5, hole_support=false, inwards_slot=false, $fn=0){
 	difference(){
 		union(){
             // Motor holding part
             difference(){
 				union(){
 					//nema17(places=[1,1,1,1], h=thickness, slot_length=slot_length);
-					translate([slot_length/2, 0, thickness/2]) cube_fillet([width+slot_length,width,thickness], vertical=vertical, center = true);
+					translate([((inwards_slot) ? 0 :slot_length)/2, 0, thickness/2]) cube_fillet([width+((inwards_slot) ? 0 :slot_length),width,thickness], vertical=vertical, center = true);
 				}
 
                 // motor screw holes
-				translate([0, 0, thickness]) mirror([0,0,1]) nema17(places=[1,1,1,1], holes=true, head_drop=head_drop, h=thickness, slot_length=slot_length, $fn=$fn, hole_support=hole_support);
-						
+                if (inwards_slot) {
+					translate([0, 0, thickness]) mirror([0,0,1]) nema17_inwards_slot(places=[1,1,1,1], holes=true, head_drop=head_drop, h=thickness, slot_length=slot_length, $fn=$fn, hole_support=hole_support);
+				} else {
+					translate([0, 0, thickness]) mirror([0,0,1]) nema17(places=[1,1,1,1], holes=true, head_drop=head_drop, h=thickness, slot_length=slot_length, $fn=$fn, hole_support=hole_support);
+				}
 				// center hole
-				translate ([0, 0, thickness/2]) cylinder_slot(r=hole_fit(11.5*2,$fn)/2,h=thickness+1, length=slot_length, center = true, $fn=$fn);
+				if (inwards_slot) {
+					translate ([0, 0, thickness/2]) cylinder_poly(r=hole_fit(11.5*2,$fn)/2,h=thickness+1, center = true, $fn=$fn);
+				} else {
+					translate ([0, 0, thickness/2]) cylinder_slot(r=hole_fit(11.5*2,$fn)/2,h=thickness+1, length=slot_length, center = true, $fn=$fn);
+				}
             }
 				translate([0, 0, -42]) nema17_motor();
         }

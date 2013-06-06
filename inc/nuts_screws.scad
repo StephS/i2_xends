@@ -110,8 +110,8 @@ module screw_hole(h=20, length=0, head_drop=0, type=screw_M3_socket_head, washer
 
     screw=v_screw_hole(type, hole_allowance = allowance, head_allowance = ((screw_head_bottom_dia(type) < screw_head_top_dia(type)) ? ((horizontal) ? screw_head_allowance_tight_horizontal : screw_head_allowance_tight_vertical) : ((horizontal) ? screw_head_allowance_horizontal : screw_head_allowance_vertical)), $fn=$fn, horizontal=horizontal);
     
-    head_bottom_dia= (washer_type[0]>screw_head_bottom_dia(screw)) ? washer_outer_dia(v_washer_hole(washer_type, $fn=$fn)) : screw_head_bottom_dia(screw);
-    head_top_dia= (washer_type[0]>screw_head_top_dia(screw)) ? washer_outer_dia(v_washer_hole(washer_type, $fn=$fn)) : screw_head_top_dia(screw);
+    head_bottom_dia= (washer_outer_dia(washer_type)>screw_head_bottom_dia(screw)) ? washer_outer_dia(v_washer_hole(washer_type, $fn=$fn)) : screw_head_bottom_dia(screw);
+    head_top_dia= (washer_outer_dia(washer_type)>screw_head_top_dia(screw)) ? washer_outer_dia(v_washer_hole(washer_type, $fn=$fn)) : screw_head_top_dia(screw);
 	
 	head_height = ((screw_head_bottom_dia(screw) < screw_head_top_dia(screw)) ? screw_head_height(screw) : head_drop);
 	head_drop1= ((screw_head_bottom_dia(screw) < screw_head_top_dia(screw)) ? screw_head_height(screw)+head_drop : head_drop);
@@ -144,8 +144,7 @@ module screw_hole(h=20, length=0, head_drop=0, type=screw_M3_socket_head, washer
 
 module rod_hole(d=0, h=0, allowance=-1, length=0, $fn=0, center=false, horizontal=false){
 	//makes a rod hole
-	n=(($fn>0) ? $fn : poly_sides(d));
-	dia= hole_fit(d, n) + ((allowance==-1) ? ((horizontal) ? rod_hole_allowance_horizontal : rod_hole_allowance_vertical) : allowance);
+	dia = v_rod_hole(d=d, allowance=allowance, $fn=$fn, horizontal=horizontal);
 	cylinder_slot(h=h, r=dia/2, length=length, $fn=$fn, center=center);
 }
 
@@ -213,14 +212,14 @@ module screw_trap(l=20, screw=screw_M3_socket_head, nut=nut_M3, add_inner_suppor
 	}
 }
 
-module screw_nut_negative(l=20, screw=screw_M3_socket_head, nut=nut_M3, nut_slot=0, nut_drop=0, head_drop=0, washer_type, $fn=8, center=false, horizontal=false){
+module screw_nut_negative(l=20, screw=screw_M3_socket_head, nut=nut_M3, nut_slot=0, nut_drop=0, nut_thickness=0, head_drop=0, washer_type, $fn=0, center=false, horizontal=false){
 	translate([0,0,((center) ? -(l)/2 : 0)]) {
 		// nut trap
 		translate([0,0,l-nut_drop])
-			nut_hole(type=nut_M3, nut_slot=nut_slot, horizontal=horizontal);
+			nut_hole(type=nut_M3, nut_slot=nut_slot, horizontal=horizontal, thickness=nut_thickness);
 	
 		// screw head hole
-		screw_hole(type=screw, h=l-head_drop+0.001, head_drop=head_drop, washer_type=washer_type, $fn=8, horizontal=horizontal);
+		screw_hole(type=screw, h=l-head_drop+0.001, head_drop=head_drop, washer_type=washer_type, $fn=$fn, horizontal=horizontal);
 	}
 }
 
