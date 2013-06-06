@@ -154,9 +154,10 @@ module nut(type=nut_M3, h=0){
 	cylinder(h=((h>0) ? h : nut_thickness(type)), r=nut_outer_dia(type)/2, $fn=6);
 }
 
-module nut_hole(type=nut_M3, thickness=0, nut_slot=0, horizontal=false){
+module nut_hole(type=nut_M3, thickness=0, nut_slot=0, horizontal=false, allowance=-1){
 	//makes a nut hole
-	nut_h=v_nut_hole(type, horizontal=horizontal);
+	nut_h=v_nut_hole(type, horizontal=horizontal, hole_allowance = allowance);
+	
 	// fix manifold
 	//translate ([0,0,-0.001])
 	union() {

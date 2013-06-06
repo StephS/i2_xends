@@ -120,7 +120,7 @@ module x_end_idler() {
 		
 		// Lead screw hole and anti-backlash nut
 		translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]-0.01]) screw_hole(type=lead_screw, h=20.01, allowance=1);
-		translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]+0.01]) nut_hole(type=lead_screw_nut, thickness=z_bushing_foot_height+1.01);
+		translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]+0.01]) nut_hole(type=lead_screw_nut, thickness=z_bushing_foot_height+1.01, allowance=nut_hole_allowance_vertical*2.5);
 
 		// rod clamp screw holes		
 		translate([0,0,0]) rod_clamp_screws(nuts=false);
@@ -166,7 +166,7 @@ module x_end_motor() {
 		
 		// Lead screw hole and anti-backlash nut
 		translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]-0.01]) screw_hole(type=lead_screw, h=20.01, allowance=1);
-		translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]+0.01]) nut_hole(type=lead_screw_nut, thickness=z_bushing_foot_height+1.01);
+		translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]+0.01]) nut_hole(type=lead_screw_nut, thickness=z_bushing_foot_height+1.01, allowance=nut_hole_allowance_vertical*2.5);
 
 		// rod clamp screw holes		
 		translate([0,0,0]) rod_clamp_screws(nuts=false);
