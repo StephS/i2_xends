@@ -83,6 +83,11 @@ frame_top_vertex_y =frame_threaded_rod_distance * cos(frame_bottom_vertex_angle)
 frame_plate_width = frame_vertex_x*2+frame_threaded_rod_distance+frame_rod_distance_to_edge*2;
 frame_plate_height = frame_vertex_y+frame_top_vertex_y+frame_rod_distance_to_edge*2;
 
+frame_threaded_smooth_rod_clamp_height = ceil(washer_outer_dia(washer_M8));
+frame_threaded_to_smooth_rod_gap = 1;
+frame_threaded_smooth_rod_clamp_gap = 1.5;
+frame_threaded_to_smooth_rod_clamp_wall_thickness = 3;
+
 // *********************************************
 // Z Axis configuration
 // *********************************************
