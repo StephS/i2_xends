@@ -83,10 +83,26 @@ frame_top_vertex_y =frame_threaded_rod_distance * cos(frame_bottom_vertex_angle)
 frame_plate_width = frame_vertex_x*2+frame_threaded_rod_distance+frame_rod_distance_to_edge*2;
 frame_plate_height = frame_vertex_y+frame_top_vertex_y+frame_rod_distance_to_edge*2;
 
+// smooth rod to threaded rod clamp settings
 frame_threaded_smooth_rod_clamp_height = ceil(washer_outer_dia(washer_M8));
 frame_threaded_to_smooth_rod_gap = 1;
 frame_threaded_smooth_rod_clamp_gap = 1.5;
 frame_threaded_to_smooth_rod_clamp_wall_thickness = 3;
+
+// end stop settings
+// hole spacing [width, height] for 4 holes (more universal)
+end_stop_hole_spacing = [22.2,10.3];
+end_stop_clamp_screw = screw_M4_socket_head;
+end_stop_clamp_nut = nut_M4;
+end_stop_clamp_gap = 1.5;
+end_stop_smooth_rod_to_screw_gap = 1;
+
+end_stop_mount_thickness=4;
+end_stop_plate_offset=1;
+end_stop_mounting_screw = screw_M3_socket_head;
+end_stop_size = [27.8, 10.3, 15.9];
+end_stop_button_loc_from_screw = 3;
+
 
 // *********************************************
 // Z Axis configuration
