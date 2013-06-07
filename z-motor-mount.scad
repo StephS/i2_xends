@@ -53,11 +53,12 @@ module z_motor_mount_clamp(){
 		translate([0,-(z_motor_mount_clamp_seperation+14)/2,0]) cube_fillet([z_motor_mount_width, z_motor_mount_clamp_seperation+14, z_motor_mount_clamp_height], vertical=[z_motor_mount_width/3,z_motor_mount_width/3,z_motor_mount_width/3,z_motor_mount_width/3]);
 		
 		translate([-0.5,0,-0.5]) rotate([0,90,0]) rod_hole(d=z_axis_smooth_rod_diameter,h=z_motor_mount_width+1, horizontal=true, $fn=10);
-		translate([z_motor_mount_width/2,z_motor_mount_clamp_seperation/2,z_motor_mount_clamp_height]) rotate([180,0,0]) screw_hole(type=z_motor_mount_clamp_screw, washer_type=washer_M5, h=z_motor_mount_clamp_height, head_drop=screw_head_height(v_screw_hole(z_motor_mount_clamp_screw)));
-		translate([z_motor_mount_width/2,-z_motor_mount_clamp_seperation/2,z_motor_mount_clamp_height]) rotate([180,0,0]) screw_hole(type=z_motor_mount_clamp_screw, washer_type=washer_M5, h=z_motor_mount_clamp_height, head_drop=screw_head_height(v_screw_hole(z_motor_mount_clamp_screw)));
+		translate([z_motor_mount_width/2,z_motor_mount_clamp_seperation/2,z_motor_mount_clamp_height]) rotate([180,0,0]) screw_hole(type=z_motor_mount_clamp_screw, h=z_motor_mount_clamp_height);
+		translate([z_motor_mount_width/2,-z_motor_mount_clamp_seperation/2,z_motor_mount_clamp_height]) rotate([180,0,0]) screw_hole(type=z_motor_mount_clamp_screw, h=z_motor_mount_clamp_height);
 	}
 }
 
 translate([z_motor_mount_width,0,0])
 	z_motor_mount_clamp();
+
 z_motor_mount();
