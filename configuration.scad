@@ -93,14 +93,19 @@ frame_threaded_to_smooth_rod_clamp_wall_thickness = 3;
 // hole spacing [width, height] for 4 holes (more universal)
 end_stop_hole_spacing = [22.2,10.3];
 end_stop_clamp_screw = screw_M4_socket_head;
+end_stop_flag_screw = screw_M4_socket_head;
+end_stop_flag_nut = nut_M4;
 end_stop_clamp_nut = nut_M4;
 end_stop_clamp_gap = 1.5;
 end_stop_smooth_rod_to_screw_gap = 1;
 
 end_stop_mount_thickness=4;
 end_stop_plate_offset=1;
+end_stop_plate_add=3;
 end_stop_mounting_screw = screw_M3_socket_head;
+end_stop_mounting_nut = nut_M3;
 end_stop_size = [27.8, 10.3, 15.9];
+end_stop_plate_size=[end_stop_size[0]+end_stop_plate_add, end_stop_mount_thickness, end_stop_size[2]+end_stop_plate_add];
 end_stop_button_loc_from_screw = 3;
 
 
