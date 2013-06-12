@@ -161,7 +161,7 @@ module nut_hole(type=nut_M3, thickness=0, nut_slot=0, horizontal=false, allowanc
 	stop=((nut_slot>0) ? 4 : 6);
 	// fix manifold
 	//translate ([0,0,-0.001])
-	union() {
+	render() union() {
 		cylinder(h=nut_thickness, r=nut_outer_dia(nut_h)/2, $fn=6);
 		if (nut_slot>0) translate([0, -(nut_flat(nut_h))/2, 0]) cube([nut_slot+0.01, (nut_flat(nut_h)), nut_thickness]);
 		if (!horizontal) for(i = [start:stop])

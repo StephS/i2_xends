@@ -118,6 +118,11 @@ lead_screw_nut_support_outer_dia = (nut_outer_dia(v_nut_hole(lead_screw_nut))+6)
 
 lead_screw_to_smooth_rod_separation = 30;
 
+lead_screw_coupling_tubing_wall_thickness = 1;
+lead_screw_coupling_screw=screw_M3_socket_head;
+lead_screw_coupling_nut=nut_M3;
+lead_screw_coupling_gap=0.5;
+
 y_offset=3;
 
 z_bushing_mounting_screw = screw_M4_socket_head;
