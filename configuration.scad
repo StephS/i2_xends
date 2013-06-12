@@ -137,7 +137,7 @@ z_bushing_foot_height= (max_bushing_length+bushing_retainer_add);
 z_bushing_mount_thickness = 5;
 
 // Z motor mount Configuration
-z_motor_mount_thickness = 4;
+z_motor_mount_thickness = 5;
 z_motor_mount_width = ceil(washer_outer_dia(washer_M8));
 z_motor_mount_height = 55;
 z_motor_mount_clamp_wall_thickness = lead_screw_to_smooth_rod_separation-stepper_motor_padded/2;
@@ -206,6 +206,6 @@ x_end_idler_wall_height=z_bushing_foot_height+x_end_base_size[2]+1; //(idler_hei
 x_end_idler_wall_thickness=6;
 
 smooth_rod_clamp_screw_hole_spacing_x = 32;
-smooth_rod_clamp_screw_hole_spacing_y = 27;
+smooth_rod_clamp_screw_hole_spacing_y = 28;
 smooth_rod_clamp_screw = screw_M4_socket_head;
 smooth_rod_clamp_nut = nut_M4;

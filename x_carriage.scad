@@ -33,11 +33,12 @@ module x_carriage() {
 				translate([-x_axis_smooth_rod_separation/2,-(x_carriage_base_size[1]/2-(bushing_x[2]+bushing_retainer_add)/2), 0]) rotate([90,-90,0]) linear(conf_b = bushing_x, center=true, wide_base=true);
 			}
 			translate([x_carriage_base_size[0]/2-0.1,x_carriage_base_size[1]/2-10,0])
-				cube_fillet([(end_stop_mount_thickness+end_stop_size[1]/2)+screw_head_top_dia(v_screw_hole(end_stop_flag_screw))/2+3+0.1, 10, (bushing_x[1]+x_carriage_base_size[2]+0.1-(end_stop_plate_size[0]-end_stop_hole_spacing[0])/2-end_stop_button_loc_from_screw)+screw_head_top_dia(v_screw_hole(end_stop_flag_screw))/2+3], vertical=[3,0,0,3], top=[3,0,3,3])
-			// belt tensioner slide through
-			translate([-x_carriage_base_size[0]/2-(belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset),-x_carriage_base_size[1]/2,0]) cube_fillet([belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset+0.1, x_carriage_belt_support_width, x_carriage_base_size[2]+belt[3]], vertical=[0,4,4,0]);
+				cube_fillet([(end_stop_mount_thickness+end_stop_size[1]/2)+screw_head_top_dia(v_screw_hole(end_stop_flag_screw))/2+3+0.1, 10, (bushing_x[1]+x_carriage_base_size[2]+0.1-(end_stop_plate_size[0]-end_stop_hole_spacing[0])/2-end_stop_button_loc_from_screw)+screw_head_top_dia(v_screw_hole(end_stop_flag_screw))/2+3], vertical=[3,0,0,3], top=[3,0,3,3]);			// belt tensioner slide through
+			translate([-x_carriage_base_size[0]/2-(belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset),-x_carriage_base_size[1]/2,0])
+				cube_fillet([belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset+0.1, x_carriage_belt_support_width, x_carriage_base_size[2]+belt[3]], vertical=[0,4,4,0]);
 			// belt tensioner clamp
-			translate([-x_carriage_base_size[0]/2-(belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset),0,0]) cube_fillet([belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset+0.1, x_carriage_belt_clamp_width, x_carriage_base_size[2]], vertical=[0,5,5,0]);
+			translate([-x_carriage_base_size[0]/2-(belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset),0,0])
+				cube_fillet([belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset+0.1, x_carriage_belt_clamp_width, x_carriage_base_size[2]], vertical=[0,5,5,0]);
 			// belt tensioner
 			translate([-x_carriage_base_size[0]/2-(belt_width/2+x_carriage_tensioner_nut_support_outer_dia/2+x_carriage_belt_clamp_offset),-(x_carriage_base_size[1]/2-x_carriage_belt_support_width)/2-x_carriage_tensioner_nut_support_outer_dia/2,0]) cube_fillet([belt_width/2+x_carriage_tensioner_nut_support_outer_dia/2+x_carriage_belt_clamp_offset+x_carriage_tensioner_offset+0.1, x_carriage_tensioner_nut_support_outer_dia, x_carriage_tensioner_nut_support_thickness], vertical=[0,x_carriage_tensioner_nut_support_outer_dia/2,x_carriage_tensioner_nut_support_outer_dia/2,0], top=[0,0,0,x_carriage_tensioner_offset]);
 			
@@ -45,7 +46,7 @@ module x_carriage() {
 			translate([-x_carriage_base_size[0]/2-(belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset),x_carriage_base_size[1]/2-x_carriage_belt_clamp_width,0]) cube_fillet([belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset+0.1, x_carriage_belt_clamp_width, x_carriage_base_size[2]], vertical=[0,5,5,0]);
 			
 		}
-		render() translate([0, -x_carriage_base_size[1]/2, 0]) {	
+		translate([0, -x_carriage_base_size[1]/2, 0]) {	
 			translate([-x_carriage_fan[0]/2,0,0]){
 				// fan screw hole
 				translate([0, 0, x_carriage_fan_nut_height]) rotate([-90,0,0]) screw_hole(type=x_carriage_fan_screw, h=x_carriage_fan_nut_wall_thickness, $fn=8, horizontal=true);
@@ -59,7 +60,7 @@ module x_carriage() {
 				translate([0,x_carriage_fan_nut_wall, x_carriage_fan_nut_height]) rotate([-90,0,0]) rotate([0,0,90]) nut_hole(type=x_carriage_fan_nut, nut_slot=x_carriage_fan_nut_height, horizontal=true);
 			}
 		}
-		render() translate([0, x_carriage_base_size[1]/2-x_carriage_fan_nut_wall_thickness, 0]) {	
+		translate([0, x_carriage_base_size[1]/2-x_carriage_fan_nut_wall_thickness, 0]) {	
 			translate([-x_carriage_fan[0]/2,0,0]){
 				// fan screw hole
 				translate([0, 0, x_carriage_fan_nut_height]) rotate([-90,0,0]) screw_hole(type=x_carriage_fan_screw, h=x_carriage_fan_nut_wall_thickness, $fn=8, horizontal=true);
