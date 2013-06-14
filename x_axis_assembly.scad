@@ -4,7 +4,7 @@ use <x_carriage.scad>
 use <bushing.scad>
 use <end_stop_holder.scad>
 
-translate([0,0,-x_end_base_clamp_gap]) rotate([0,180,0]) x_end_bottom(end_stop=true);
+translate([0,0,-x_end_base_clamp_gap]) rotate([0,180,0]) x_end_bottom_endstop();
 translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw_y_offset,-(x_end_base_size[2]+1)-x_end_base_clamp_gap-z_bushing_foot_height]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
 translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw_y_offset,x_end_base_size[2]+1]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
 //idler

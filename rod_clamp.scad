@@ -6,7 +6,7 @@ module rod_clamp(smooth_rod=x_axis_smooth_rod_diameter){
 		union(){
 			cylinder_poly(r=v_rod_hole(d=smooth_rod)/2+frame_threaded_to_smooth_rod_clamp_wall_thickness, h=frame_threaded_smooth_rod_clamp_height);
 			translate([0,-(v_rod_hole(d=smooth_rod)/2+frame_threaded_to_smooth_rod_clamp_wall_thickness),0])
-				cube_fillet([v_rod_hole(d=smooth_rod)/2+frame_threaded_to_smooth_rod_gap+screw_dia(v_screw_hole(type=frame_threaded_rod, $fn=12, horizontal=true))/2+frame_threaded_smooth_rod_clamp_height/2,v_rod_hole(d=smooth_rod)+frame_threaded_to_smooth_rod_clamp_wall_thickness*2, frame_threaded_smooth_rod_clamp_height], vertical=[0,0,0,0], bottom=[0,0,0,frame_threaded_smooth_rod_clamp_height/2], top=[0,0,0,frame_threaded_smooth_rod_clamp_height/2], $fn=4);
+				cube_fillet([v_rod_hole(d=smooth_rod)/2+frame_threaded_to_smooth_rod_gap+screw_dia(v_screw_hole(type=frame_threaded_rod, $fn=12, horizontal=true))/2+frame_threaded_smooth_rod_clamp_height/2,v_rod_hole(d=smooth_rod)+frame_threaded_to_smooth_rod_clamp_wall_thickness*2, frame_threaded_smooth_rod_clamp_height], vertical=[0,0,0,0], bottom=[0,0,0,frame_threaded_smooth_rod_clamp_height/2], top=[0,0,0,frame_threaded_smooth_rod_clamp_height/2], $fn=3);
 		}
 		
 		// smooth rod hole

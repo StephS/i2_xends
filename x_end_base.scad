@@ -174,8 +174,6 @@ module x_end_motor() {
 				union() {
 					translate([x_end_base_size[0]/2-(end_stop_plate_size[1]+nut_thickness(v_nut_hole(end_stop_mounting_nut))), x_end_base_size[1]/2-end_stop_plate_size[2], 0])
 						cube([end_stop_plate_size[1]+nut_thickness(v_nut_hole(end_stop_mounting_nut))+0.1,end_stop_plate_size[2],x_end_base_size[2]]);
-					// z end stop
-					translate([z_end_stop_loc_x-8, z_end_stop_loc_y, 0]) cylinder_slot(r=nut_outer_dia(v_nut_hole(end_stop_flag_nut))/2+2, h=x_end_base_size[2], length=8);
 				}
 				
 				translate([x_axis_smooth_rod_separation/2,0,-x_end_base_clamp_gap/2]) rotate([90,0,0]) rotate([0,0,18]) rod_hole(d=x_axis_smooth_rod_diameter+0.1, h=x_end_base_size[1]+10, $fn=10, center=true, horizontal=true);
@@ -194,12 +192,6 @@ module x_end_motor() {
 					render() translate([-end_stop_hole_spacing[1],end_stop_plate_size[1],0]) rotate([-90,90,0]) nut_hole(type=end_stop_mounting_nut, nut_slot=(end_stop_plate_size[0]-end_stop_hole_spacing[0])/2, horizontal=true);
 				}
 		
-		// z end stop hole
-		translate([z_end_stop_loc_x, z_end_stop_loc_y, -0.01])
-			nut_hole(type=end_stop_flag_nut);
-		translate([z_end_stop_loc_x, z_end_stop_loc_y, x_end_base_size[2]])
-			rotate([180,0,0]) screw_hole(type=end_stop_flag_screw, h=x_end_base_size[2]-nut_thickness(v_nut_hole(end_stop_flag_nut))-layer_height-0.05);
-		
 		// Lead screw hole and anti-backlash nut
 		translate([0,x_end_base_size[1]/2-lead_screw_y_offset,x_end_base_size[2]-0.01]) screw_hole(type=lead_screw, h=20.01, allowance=1);
 		translate([0,x_end_base_size[1]/2-lead_screw_y_offset,x_end_base_size[2]+0.01]) nut_hole(type=lead_screw_nut, thickness=z_bushing_foot_height+1.01, allowance=nut_hole_allowance_vertical*2.5);
@@ -216,7 +208,7 @@ module x_end_bottom() {
 			translate([0,x_end_base_size[1]/2-lead_screw_y_offset,-x_end_base_clamp_gap/2+nut_thickness(v_nut_hole(lead_screw_nut))]) cylinder_poly(r=screw_dia(v_screw_hole(lead_screw))/2+1, h=layer_height);
 		}
 		render() translate([0,0,x_end_base_size[2]+1]) bushing_mount_screws(screw_length=12);
-		
+
 		// rod clamp screw holes
 		translate([0,0,0]) rod_clamp_screws(nuts=true);
 		
@@ -224,8 +216,44 @@ module x_end_bottom() {
 	}
 }
 
+module x_end_bottom_endstop() {
+	union() {
+		difference() {
+			union() {
+				x_end_base(top=[0,0,0,5]);
+				translate([0,x_end_base_size[1]/2-lead_screw_y_offset,-x_end_base_clamp_gap/2+nut_thickness(v_nut_hole(lead_screw_nut))]) cylinder_poly(r=screw_dia(v_screw_hole(lead_screw))/2+1, h=layer_height);
+				
+				// z end stop
+				translate([-z_end_stop_loc_x+1.5, z_end_stop_loc_y, (x_end_base_size[2]+z_bushing_foot_height+1)/2]) cube_fillet([nut_outer_dia(v_nut_hole(end_stop_flag_nut))+7, nut_outer_dia(v_nut_hole(end_stop_flag_nut))+4, x_end_base_size[2]+z_bushing_foot_height+1], center=true);
+				
+				difference() {
+					translate([-x_end_base_size[0]/2, -x_end_base_size[1]/2-0.1, x_end_base_size[2]-0.01]) cube_fillet([(x_end_base_size[0]-x_end_bushing_mount_wall_width)/2+0.1, x_end_base_size[1]/2+7+0.1,x_end_idler_wall_height-x_end_base_size[2] + 0.01], vertical=[0,11,0,0], top=[0,0,0,0]);	//idler wall
+					translate([-x_end_base_size[0]/2+sagitta_radius((x_end_base_size[0]-x_end_bushing_mount_wall_width)/2-5, 
+						x_end_base_size[1]/2+7-(z_bushing_mount_thickness+7))+5, 
+						-x_end_base_size[1]/2, 
+						x_end_base_size[2] -0.01])
+					cylinder_poly(r=sagitta_radius((x_end_base_size[0]-x_end_bushing_mount_wall_width)/2-5, x_end_base_size[1]/2+7-(z_bushing_mount_thickness+7)), h=x_end_idler_wall_height-x_end_base_size[2]+0.02);	//idler wall
+				}
+			}
+			render() translate([0,0,x_end_base_size[2]+1]) bushing_mount_screws(screw_length=12);
+			
+			// z end stop hole
+			translate([-z_end_stop_loc_x, z_end_stop_loc_y, x_end_base_size[2]+z_bushing_foot_height+1-4])
+				rotate([180,0,180]) nut_hole(type=end_stop_flag_nut, nut_slot=nut_outer_dia(v_nut_hole(end_stop_flag_nut))/2+3);
+			translate([-z_end_stop_loc_x, z_end_stop_loc_y, 0])
+				screw_hole(type=end_stop_flag_screw, h=x_end_base_size[2]+z_bushing_foot_height+1, washer=end_stop_flag_washer, head_drop=z_bushing_foot_height, hole_support=true);
+			
+			// rod clamp screw holes
+			translate([0,0,0]) rod_clamp_screws(nuts=true);
+			
+			render() translate([0,x_end_base_size[1]/2-lead_screw_y_offset,-x_end_base_clamp_gap/2]) nut_hole(type=lead_screw_nut);
+		}
+		translate([-z_end_stop_loc_x, z_end_stop_loc_y, x_end_base_size[2]+z_bushing_foot_height+1-4])
+			cylinder(r=nut_outer_dia(v_nut_hole(end_stop_flag_nut))/2, h=layer_height+0.01);
+	}
+}
 
-translate([0,0,-x_end_base_clamp_gap]) rotate([0,180,0]) x_end_bottom(end_stop=true);
+//translate([0,0,-x_end_base_clamp_gap]) rotate([0,180,0]) x_end_bottom();
 /*
 translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw_y_offset,-(x_end_base_size[2]+1)-x_end_base_clamp_gap-z_bushing_foot_height]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
 translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw_y_offset,x_end_base_size[2]+1]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
@@ -236,6 +264,6 @@ translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw
 // Print one of the motor and idler, two x_end_bottom, and 4 of the bearing clamps
 //linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
 //x_end_idler();
-x_end_motor();
+//x_end_motor();
 //x_end_bottom();
-//x_end_bottom(end_stop=true);
+x_end_bottom_endstop();

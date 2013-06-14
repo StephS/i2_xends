@@ -95,6 +95,7 @@ end_stop_hole_spacing = [22.2,10.3];
 end_stop_clamp_screw = screw_M4_socket_head;
 end_stop_flag_screw = screw_M4_socket_head;
 end_stop_flag_nut = nut_M4;
+end_stop_flag_washer = washer_M4;
 end_stop_clamp_nut = nut_M4;
 end_stop_clamp_gap = 1.5;
 end_stop_smooth_rod_to_screw_gap = 1;
