@@ -100,7 +100,7 @@ end_stop_clamp_gap = 1.5;
 end_stop_smooth_rod_to_screw_gap = 1;
 
 end_stop_mount_thickness=4;
-end_stop_plate_offset=1;
+end_stop_plate_offset=8;
 end_stop_plate_add=3;
 end_stop_mounting_screw = screw_M3_socket_head;
 end_stop_mounting_nut = nut_M3;
@@ -123,7 +123,7 @@ lead_screw_coupling_screw=screw_M3_socket_head;
 lead_screw_coupling_nut=nut_M3;
 lead_screw_coupling_gap=0.5;
 
-y_offset=3;
+lead_screw_y_offset=3;
 
 z_bushing_mounting_screw = screw_M4_socket_head;
 z_bushing_mounting_nut = nut_M4;

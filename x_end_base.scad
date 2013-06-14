@@ -4,18 +4,21 @@ use <end_stop_holder.scad>
 use <inc/drivetrain.scad>
 include <inc/nuts_screws.scad>;
 
+z_end_stop_loc_y= (x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw_y_offset)+(v_rod_hole(d=z_axis_smooth_rod_diameter)/2+frame_threaded_to_smooth_rod_clamp_wall_thickness)-end_stop_mount_thickness-end_stop_size[1]/2;
+z_end_stop_loc_x=-(-(v_rod_hole(d=z_axis_smooth_rod_diameter)/2+frame_threaded_to_smooth_rod_clamp_wall_thickness)-end_stop_plate_size[0]-end_stop_plate_offset)-(end_stop_plate_size[0]-end_stop_hole_spacing[0])/2-end_stop_button_loc_from_screw;
+
 module x_end_base(vertical=[5,5,5,5], top=[0,0,0,0]) {
 	//X end block
 	difference(){
 		union(){
 			translate([0,0,x_end_base_size[2]/2]) cube_fillet(x_end_base_size, center=true, vertical=vertical, top=top);	//Main block
-			translate([0,x_end_base_size[1]/2-y_offset,0]) cylinder_poly(r=lead_screw_nut_support_outer_dia/2, h=x_end_base_size[2]);
+			translate([0,x_end_base_size[1]/2-lead_screw_y_offset,0]) cylinder_poly(r=lead_screw_nut_support_outer_dia/2, h=x_end_base_size[2]);
 			translate([-(x_end_bushing_mount_wall_width)/2,0,x_end_base_size[2]-0.01]) bushing_mount_wall();
 		}
 		
-		translate([0,x_end_base_size[1]/2-y_offset,0]) screw_hole(type=lead_screw, h=x_end_base_size[2], allowance=1);
+		translate([0,x_end_base_size[1]/2-lead_screw_y_offset,0]) screw_hole(type=lead_screw, h=x_end_base_size[2], allowance=1);
 		
-		translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,-0.5]) rotate([0,0,-90]) rod_hole(d=z_axis_smooth_rod_diameter+2,h=x_end_base_size[2]+1, length=x_end_base_size[1]-lead_screw_to_smooth_rod_separation);
+		translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw_y_offset,-0.5]) rotate([0,0,-90]) rod_hole(d=z_axis_smooth_rod_diameter+2,h=x_end_base_size[2]+1, length=x_end_base_size[1]-lead_screw_to_smooth_rod_separation);
 		
 		// smooth rod cutouts
 		translate([x_axis_smooth_rod_separation/2,0,-x_end_base_clamp_gap/2]) rotate([90,0,0]) rotate([0,0,18]) rod_hole(d=x_axis_smooth_rod_diameter, h=x_end_base_size[1]+1, $fn=10, center=true, horizontal=true);
@@ -76,7 +79,7 @@ module x_end_idler() {
 	difference(){
 		union(){
 			x_end_base(vertical=[0,5,5,0], top=[0,5,0,0]);
-			translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]-0.01]) cylinder_poly(r=lead_screw_nut_support_outer_dia/2, h=20.01);
+			translate([0,x_end_base_size[1]/2-lead_screw_y_offset,x_end_base_size[2]-0.01]) cylinder_poly(r=lead_screw_nut_support_outer_dia/2, h=20.01);
 			
 			// idler wall
 			translate([x_end_base_size[0]/2-x_end_idler_wall_thickness/2,0,x_end_idler_wall_height/2+x_end_base_size[2]/2-0.005]) cube_fillet([x_end_idler_wall_thickness,x_end_base_size[1],x_end_idler_wall_height-x_end_base_size[2]+0.01], center=true, vertical=[0,0,0,0], top=[bearing_out_dia(x_end_idler_bearing)/2,0,bearing_out_dia(x_end_idler_bearing)/2,0]);	//idler wall
@@ -120,8 +123,8 @@ module x_end_idler() {
 		translate([(x_end_base_size[0]/2)-x_end_idler_wall_thickness -0.01, screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))/2, x_end_idler_height]) rotate([-90,0,90]) nut_hole(type=x_end_idler_nut, nut_slot=17);
 		
 		// Lead screw hole and anti-backlash nut
-		translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]-0.01]) screw_hole(type=lead_screw, h=20.01, allowance=1);
-		translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]+0.01]) nut_hole(type=lead_screw_nut, thickness=z_bushing_foot_height+1.01, allowance=nut_hole_allowance_vertical*2.5);
+		translate([0,x_end_base_size[1]/2-lead_screw_y_offset,x_end_base_size[2]-0.01]) screw_hole(type=lead_screw, h=20.01, allowance=1);
+		translate([0,x_end_base_size[1]/2-lead_screw_y_offset,x_end_base_size[2]+0.01]) nut_hole(type=lead_screw_nut, thickness=z_bushing_foot_height+1.01, allowance=nut_hole_allowance_vertical*2.5);
 
 		// rod clamp screw holes		
 		translate([0,0,0]) rod_clamp_screws(nuts=false);
@@ -139,7 +142,7 @@ module x_end_motor() {
 	difference(){
 		union(){
 			x_end_base(vertical=[5,5,0,5], top=[0,0,0,5]);
-			translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]-0.01]) cylinder_poly(r=lead_screw_nut_support_outer_dia/2, h=20.01);
+			translate([0,x_end_base_size[1]/2-lead_screw_y_offset,x_end_base_size[2]-0.01]) cylinder_poly(r=lead_screw_nut_support_outer_dia/2, h=20.01);
 			
 			// motor mount
 			translate([-x_end_base_size[0]/2+x_end_motor_wall_thickness,-x_end_base_size[1]/2-stepper_motor_padded/2-motor_loc,(stepper_motor_padded)/2+x_end_motor_support_height]) rotate([0, -90, 0]) motor_plate(thickness=x_end_motor_wall_thickness, width=stepper_motor_padded+0.1, slot_length=0, vertical=[0,0,0,0], head_drop=1, $fn=12);
@@ -162,14 +165,23 @@ module x_end_motor() {
 				translate([-x_end_base_size[0]/2+sagitta_radius((x_end_base_size[0]-x_end_bushing_mount_wall_width)/2-x_end_motor_wall_thickness, x_end_base_size[1]/2+7-(z_bushing_mount_thickness+7))+x_end_motor_wall_thickness, -x_end_base_size[1]/2,x_end_base_size[2] -0.01])
 				cylinder_poly(r=sagitta_radius((x_end_base_size[0]-x_end_bushing_mount_wall_width)/2-x_end_motor_wall_thickness, x_end_base_size[1]/2+7-(z_bushing_mount_thickness+7)), h=x_end_idler_wall_height-x_end_base_size[2]+0.02);	//idler wall
 			}
-
+			
+			// x end stop
 			translate([x_end_base_size[0]/2+end_stop_plate_size[1], x_end_base_size[1]/2-end_stop_plate_size[2],0]) rotate([0,0,90])
 				end_stop_plate_vertical(size=[end_stop_plate_size[0],end_stop_plate_size[1]+nut_thickness(v_nut_hole(end_stop_mounting_nut)),end_stop_plate_size[2]], holes=false);
+		
 			difference () {
-				translate([x_end_base_size[0]/2-(end_stop_plate_size[1]+nut_thickness(v_nut_hole(end_stop_mounting_nut))), x_end_base_size[1]/2-end_stop_plate_size[2], 0])
-					cube([end_stop_plate_size[1]+nut_thickness(v_nut_hole(end_stop_mounting_nut))+0.1,end_stop_plate_size[2],x_end_base_size[2]]);
-				translate([x_axis_smooth_rod_separation/2,0,-x_end_base_clamp_gap/2]) rotate([90,0,0]) rotate([0,0,18]) rod_hole(d=x_axis_smooth_rod_diameter+1, h=x_end_base_size[1]+1, $fn=10, center=true, horizontal=true);
+				union() {
+					translate([x_end_base_size[0]/2-(end_stop_plate_size[1]+nut_thickness(v_nut_hole(end_stop_mounting_nut))), x_end_base_size[1]/2-end_stop_plate_size[2], 0])
+						cube([end_stop_plate_size[1]+nut_thickness(v_nut_hole(end_stop_mounting_nut))+0.1,end_stop_plate_size[2],x_end_base_size[2]]);
+					// z end stop
+					translate([z_end_stop_loc_x-8, z_end_stop_loc_y, 0]) cylinder_slot(r=nut_outer_dia(v_nut_hole(end_stop_flag_nut))/2+2, h=x_end_base_size[2], length=8);
+				}
+				
+				translate([x_axis_smooth_rod_separation/2,0,-x_end_base_clamp_gap/2]) rotate([90,0,0]) rotate([0,0,18]) rod_hole(d=x_axis_smooth_rod_diameter+0.1, h=x_end_base_size[1]+10, $fn=10, center=true, horizontal=true);
 			}
+			
+			
 		}
 		translate([0,0,x_end_base_size[2]+1]) bushing_mount_screws(screw_length=12);
 		
@@ -182,9 +194,15 @@ module x_end_motor() {
 					render() translate([-end_stop_hole_spacing[1],end_stop_plate_size[1],0]) rotate([-90,90,0]) nut_hole(type=end_stop_mounting_nut, nut_slot=(end_stop_plate_size[0]-end_stop_hole_spacing[0])/2, horizontal=true);
 				}
 		
+		// z end stop hole
+		translate([z_end_stop_loc_x, z_end_stop_loc_y, -0.01])
+			nut_hole(type=end_stop_flag_nut);
+		translate([z_end_stop_loc_x, z_end_stop_loc_y, x_end_base_size[2]])
+			rotate([180,0,0]) screw_hole(type=end_stop_flag_screw, h=x_end_base_size[2]-nut_thickness(v_nut_hole(end_stop_flag_nut))-layer_height-0.05);
+		
 		// Lead screw hole and anti-backlash nut
-		translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]-0.01]) screw_hole(type=lead_screw, h=20.01, allowance=1);
-		translate([0,x_end_base_size[1]/2-y_offset,x_end_base_size[2]+0.01]) nut_hole(type=lead_screw_nut, thickness=z_bushing_foot_height+1.01, allowance=nut_hole_allowance_vertical*2.5);
+		translate([0,x_end_base_size[1]/2-lead_screw_y_offset,x_end_base_size[2]-0.01]) screw_hole(type=lead_screw, h=20.01, allowance=1);
+		translate([0,x_end_base_size[1]/2-lead_screw_y_offset,x_end_base_size[2]+0.01]) nut_hole(type=lead_screw_nut, thickness=z_bushing_foot_height+1.01, allowance=nut_hole_allowance_vertical*2.5);
 
 		// rod clamp screw holes		
 		translate([0,0,0]) rod_clamp_screws(nuts=false);
@@ -195,22 +213,22 @@ module x_end_bottom() {
 	difference() {
 		union() {
 			x_end_base(top=[0,5,0,5]);
-			translate([0,x_end_base_size[1]/2-y_offset,-x_end_base_clamp_gap/2+nut_thickness(v_nut_hole(lead_screw_nut))]) cylinder_poly(r=screw_dia(v_screw_hole(lead_screw))/2+1, h=layer_height);
+			translate([0,x_end_base_size[1]/2-lead_screw_y_offset,-x_end_base_clamp_gap/2+nut_thickness(v_nut_hole(lead_screw_nut))]) cylinder_poly(r=screw_dia(v_screw_hole(lead_screw))/2+1, h=layer_height);
 		}
 		render() translate([0,0,x_end_base_size[2]+1]) bushing_mount_screws(screw_length=12);
 		
 		// rod clamp screw holes
 		translate([0,0,0]) rod_clamp_screws(nuts=true);
 		
-		render() translate([0,x_end_base_size[1]/2-y_offset,-x_end_base_clamp_gap/2]) nut_hole(type=lead_screw_nut);
+		render() translate([0,x_end_base_size[1]/2-lead_screw_y_offset,-x_end_base_clamp_gap/2]) nut_hole(type=lead_screw_nut);
 	}
 }
 
 
 translate([0,0,-x_end_base_clamp_gap]) rotate([0,180,0]) x_end_bottom(end_stop=true);
 /*
-translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,-(x_end_base_size[2]+1)-x_end_base_clamp_gap-z_bushing_foot_height]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
-translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-y_offset,x_end_base_size[2]+1]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
+translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw_y_offset,-(x_end_base_size[2]+1)-x_end_base_clamp_gap-z_bushing_foot_height]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
+translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw_y_offset,x_end_base_size[2]+1]) rotate([0,0,-90]) linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
 //idler
 %translate([(x_end_base_size[0]/2)+1+bearing_width(x_end_idler_bearing), screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))/2, x_end_idler_height]) rotate([0,-90,0]) idler(x_end_idler_bearing=x_end_idler_bearing);
 */
