@@ -150,26 +150,31 @@ module linear_bearing(conf_b=bushing_x, h=0, wide_base=false){
 }
 
 // this should be more parametric
-module firm_foot(conf_b, hole_spacing=x_end_bushing_mount_hole_spacing, foot_thickness=z_bushing_mount_thickness, h=z_bushing_foot_height, mounting_screw=z_bushing_mounting_screw, width_add=14){
+module firm_foot(conf_b, hole_spacing=x_end_bushing_mount_hole_spacing, foot_thickness=z_bushing_mount_thickness, h=z_bushing_foot_height, mounting_screw=z_bushing_mounting_screw, width_add=14, four_holes=true){
 	
     difference(){
         union() {
             translate([foot_thickness/2,0,0]) cube_fillet([foot_thickness, hole_spacing+width_add, h], center=true, vertical=[2,2,2,2]);
         }
-        
-        translate([foot_thickness, hole_spacing/2, h/2-6]) rotate([0, -90, 0]) screw_hole(type=mounting_screw, head_drop=0, allowance=screw_hole_allowance_horizontal*2.5, $fn=8);
-        translate([foot_thickness,-hole_spacing/2, h/2-6]) rotate([0,-90,0]) screw_hole(type=mounting_screw, head_drop=0, allowance=screw_hole_allowance_horizontal*2.5, $fn=8);
-        translate([foot_thickness, hole_spacing/2, -h/2+6]) rotate([0, -90, 0]) screw_hole(type=mounting_screw, head_drop=0, allowance=screw_hole_allowance_horizontal*2.5, $fn=8);
-        translate([foot_thickness,-hole_spacing/2, -h/2+6]) rotate([0,-90,0]) screw_hole(type=mounting_screw, head_drop=0, allowance=screw_hole_allowance_horizontal*2.5, $fn=8);
+        if (four_holes) {
+        	translate([foot_thickness, hole_spacing/2, h/2-6]) rotate([0, -90, 0]) screw_hole(type=mounting_screw, head_drop=0, allowance=screw_hole_allowance_horizontal*2.5, $fn=8);
+        	translate([foot_thickness,-hole_spacing/2, h/2-6]) rotate([0,-90,0]) screw_hole(type=mounting_screw, head_drop=0, allowance=screw_hole_allowance_horizontal*2.5, $fn=8);
+        	translate([foot_thickness, hole_spacing/2, -h/2+6]) rotate([0, -90, 0]) screw_hole(type=mounting_screw, head_drop=0, allowance=screw_hole_allowance_horizontal*2.5, $fn=8);
+        	translate([foot_thickness,-hole_spacing/2, -h/2+6]) rotate([0,-90,0]) screw_hole(type=mounting_screw, head_drop=0, allowance=screw_hole_allowance_horizontal*2.5, $fn=8);
+		}
+		else {
+			translate([foot_thickness, hole_spacing/2, 0]) rotate([0, -90, 0]) screw_hole(type=mounting_screw, head_drop=0, allowance=screw_hole_allowance_horizontal*2.5, $fn=8);
+        	translate([foot_thickness,-hole_spacing/2, 0]) rotate([0,-90,0]) screw_hole(type=mounting_screw, head_drop=0, allowance=screw_hole_allowance_horizontal*2.5, $fn=8);
+		}
     }
 }
 
-module linear_bearing_clamp_with_foot(conf_b=bushing_x, foot_thickness=z_bushing_mount_thickness, foot_height=z_bushing_foot_height, hole_spacing=x_end_bushing_mount_hole_spacing, center=false){
+module linear_bearing_clamp_with_foot(conf_b=bushing_z, foot_thickness=z_bushing_mount_thickness, foot_height=z_bushing_foot_height, hole_spacing=x_end_bushing_mount_hole_spacing, center=false, four_holes=true){
 	translate ([0,0,(center) ? 0 : foot_height/2])
         union() {
             difference() {
                 union() {
-                    translate([-13+0.05, 0, 0]) firm_foot(conf_b, foot_thickness=foot_thickness, hole_spacing=hole_spacing, h=foot_height);
+                    translate([-13+0.05, 0, 0]) firm_foot(conf_b, foot_thickness=foot_thickness, hole_spacing=hole_spacing, h=foot_height, four_holes=four_holes);
                     
                     if (conf_b[2] > 45) {
                         translate([-bushing_foot_len(conf_b), 0, adjust_bushing_len(conf_b, 45) - 8]) mirror([0, 0, 1]) firm_foot(conf_b);
@@ -186,6 +191,13 @@ module bearing_clamp_bevel(conf_b=bushing_x, w=0, h=bushing_x[2]+bushing_retaine
 	cube([conf_b[1]+nut_outer_dia(v_nut_hole(nut_M3))/1.39+0.3, w, h], center=true);
 }
 
+module z_linear_bearing_clamp(){
+	linear_bearing_clamp_with_foot(conf_b=bushing_z, foot_thickness=z_bushing_mount_thickness, foot_height=z_bushing_foot_height, hole_spacing=x_end_bushing_mount_hole_spacing, center=false, four_holes=true);
+}
+
+module y_linear_bearing_clamp(){
+	linear_bearing_clamp_with_foot(conf_b=bushing_y, foot_thickness=y_bushing_mount_thickness, foot_height=bushing_y[2]+bushing_retainer_add, hole_spacing=y_bushing_mount_hole_spacing, center=false, four_holes=false);
+}
 
 // old version, too weak.
 /*
@@ -220,7 +232,7 @@ module linear(conf_b = bushing_x, h = bushing_x[2]+bushing_retainer_add, center=
 //linear_bearing(conf_b=bushing, h=bushing_holder_height);
 
 //translate([0,0,(bushing_x[2]+bushing_retainer_add)/2])
-linear_bearing_clamp_with_foot(conf_b=conf_b_lm8uu);
+z_linear_bearing_clamp();
 //linear(conf_b = bushing_x, center=true, wide_base=true);
     //translate([0,52,0]) bearing_clamp2(w1=30,w2=20 );
     //linear(bushing_x, 86);

@@ -210,3 +210,12 @@ smooth_rod_clamp_screw_hole_spacing_x = 32;
 smooth_rod_clamp_screw_hole_spacing_y = 28;
 smooth_rod_clamp_screw = screw_M4_socket_head;
 smooth_rod_clamp_nut = nut_M4;
+
+// *********************************************
+// Y Axis configuration
+// *********************************************
+y_bushing_mounting_screw = screw_M4_socket_head;
+y_bushing_mounting_nut = nut_M4;
+y_bushing_mount_hole_spacing = 28;
+y_bushing_mount_thickness = 5;
+bushing_y = conf_b_lm8uu;
