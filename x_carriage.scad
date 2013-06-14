@@ -32,8 +32,10 @@ module x_carriage() {
 				translate([-x_axis_smooth_rod_separation/2,x_carriage_base_size[1]/2-(bushing_x[2]+bushing_retainer_add)/2, 0]) rotate([90,-90,0]) linear(conf_b = bushing_x, center=true, wide_base=true);
 				translate([-x_axis_smooth_rod_separation/2,-(x_carriage_base_size[1]/2-(bushing_x[2]+bushing_retainer_add)/2), 0]) rotate([90,-90,0]) linear(conf_b = bushing_x, center=true, wide_base=true);
 			}
-			translate([x_carriage_base_size[0]/2-0.1,x_carriage_base_size[1]/2-10,0])
-				cube_fillet([(end_stop_mount_thickness+end_stop_size[1]/2)+screw_head_top_dia(v_screw_hole(end_stop_flag_screw))/2+3+0.1, 10, (bushing_x[1]+x_carriage_base_size[2]+0.1-(end_stop_plate_size[0]-end_stop_hole_spacing[0])/2-end_stop_button_loc_from_screw)+screw_head_top_dia(v_screw_hole(end_stop_flag_screw))/2+3], vertical=[3,0,0,3], top=[3,0,3,3]);			// belt tensioner slide through
+			// end stop flag
+			translate([x_carriage_base_size[0]/2-0.1,x_carriage_base_size[1]/2-15,0])
+				cube_fillet([(end_stop_mount_thickness+end_stop_size[1]/2)+screw_head_top_dia(v_screw_hole(end_stop_flag_screw))/2+3+0.1, 15, (bushing_x[1]+x_carriage_base_size[2]+0.1-(end_stop_plate_size[0]-end_stop_hole_spacing[0])/2-end_stop_button_loc_from_screw)+screw_head_top_dia(v_screw_hole(end_stop_flag_screw))/2+3], vertical=[3,0,0,3], top=[3,0,3,3]);			// belt tensioner slide through
+			// belt tensioner slide through support
 			translate([-x_carriage_base_size[0]/2-(belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset),-x_carriage_base_size[1]/2,0])
 				cube_fillet([belt_width+x_carriage_belt_clamp_nut_support_outer_dia+x_carriage_belt_clamp_screw_offset+x_carriage_belt_clamp_offset+0.1, x_carriage_belt_support_width, x_carriage_base_size[2]+belt[3]], vertical=[0,4,4,0]);
 			// belt tensioner clamp
@@ -107,8 +109,8 @@ module x_carriage() {
 		// end stop flag screw
 		translate([x_carriage_base_size[0]/2,x_carriage_base_size[1]/2,0])
 			translate([(end_stop_mount_thickness+end_stop_size[1]/2),0,(bushing_x[1]+x_carriage_base_size[2]+0.1-(end_stop_plate_size[0]-end_stop_hole_spacing[0])/2-end_stop_button_loc_from_screw)]) {
-			 	rotate([90,0,0]) screw_hole(type=end_stop_flag_screw, h=10, $fn=8);
-			 	rotate([90,0,0]) translate ([0,0,-0.01]) nut_hole(type=end_stop_flag_nut, horizontal=true);
+			 	rotate([90,0,0]) screw_hole(type=end_stop_flag_screw, h=15, $fn=8);
+			 	rotate([90,0,0]) translate ([0,0,5]) nut_hole(type=end_stop_flag_nut, nut_slot=10, horizontal=true);
 			}
 		
 		// Extruder Mounting Holes
