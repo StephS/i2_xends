@@ -165,7 +165,7 @@ module nut_hole(type=nut_M3, thickness=0, nut_slot=0, horizontal=false, allowanc
 		cylinder(h=nut_thickness, r=nut_outer_dia(nut_h)/2, $fn=6);
 		if (nut_slot>0) translate([0, -(nut_flat(nut_h))/2, 0]) cube([nut_slot+0.01, (nut_flat(nut_h)), nut_thickness]);
 		if (!horizontal) for(i = [start:stop])
-			rotate([0,0,60*i]) translate([nut_outer_dia(nut_h)/2-0.16,0,0]) rotate([0,0,-45]) cylinder(r=0.3, h=nut_thickness, $fn=8);
+			rotate([0,0,60*i]) translate([nut_outer_dia(nut_h)/2-0.45,0,0]) rotate([0,0,-45]) cylinder(r=0.75, h=nut_thickness, $fn=8);
 	}
 }
 
