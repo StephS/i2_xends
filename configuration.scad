@@ -219,3 +219,10 @@ y_bushing_mounting_nut = nut_M4;
 y_bushing_mount_hole_spacing = 28;
 y_bushing_mount_thickness = 5;
 bushing_y = conf_b_lm8uu;
+
+y_belt_clamp_thickness = 5;
+y_belt_clamp_screw=screw_M3_socket_head;
+y_belt_clamp_nut=nut_M3;
+y_belt_clamp_width=14;
+y_belt_clamp_screw_separation=18;
+y_belt_clamp_length= nut_outer_dia(v_nut_hole(y_belt_clamp_nut)) +6 +2 +y_belt_clamp_screw_separation;
