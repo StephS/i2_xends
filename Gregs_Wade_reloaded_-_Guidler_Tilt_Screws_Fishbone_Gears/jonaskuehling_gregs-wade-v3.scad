@@ -319,6 +319,9 @@ module wade (hotend_mount=0,legacy_mount=false){
 				}
 			}
 			
+			translate(motor_mount_translation)
+				translate([-gear_separation,0,0])
+					cylinder(r=hole_for_608/2+1,h=8+layer_thickness+0.1,$fn=60);
 			/*
 			// The idler hinge support.
 			translate(idler_fulcrum){
@@ -588,18 +591,30 @@ module motor_mount_holes(){
 
 		translate([0,0,-1])
 		for (hole=[0:2]){
-			translate([motor_hole(hole)[0]-slot_left,motor_hole(hole)[1],0])
-			cylinder(h=screw_head_recess_depth+1,
-				r=screw_head_recess_diameter/2,$fn=16);
-			translate([motor_hole(hole)[0]+slot_right,motor_hole(hole)[1],0])
-			cylinder(h=screw_head_recess_depth+1,
-				r=screw_head_recess_diameter/2,$fn=16);
-
-			translate([motor_hole(hole)[0]-slot_left,
-				motor_hole(hole)[1]-screw_head_recess_diameter/2,0])
-			cube([slot_left+slot_right,
-				screw_head_recess_diameter,
-				screw_head_recess_depth+1]);
+			difference() {
+				union() {
+					translate([motor_hole(hole)[0]-slot_left,motor_hole(hole)[1],0])
+					cylinder(h=screw_head_recess_depth+1,
+						r=screw_head_recess_diameter/2,$fn=16);
+					translate([motor_hole(hole)[0]+slot_right,motor_hole(hole)[1],0])
+					cylinder(h=screw_head_recess_depth+1,
+						r=screw_head_recess_diameter/2,$fn=16);
+		
+					translate([motor_hole(hole)[0]-slot_left,
+						motor_hole(hole)[1]-screw_head_recess_diameter/2,0])
+					cube([slot_left+slot_right,
+						screw_head_recess_diameter,
+						screw_head_recess_depth+1]);
+				}
+			
+				translate([motor_hole(hole)[0]-slot_left,motor_hole(hole)[1],0])
+				cylinder(h=screw_head_recess_depth+1.01,r=radius-0.75,$fn=16);
+				translate([motor_hole(hole)[0]+slot_right,motor_hole(hole)[1],0])
+				cylinder(h=screw_head_recess_depth+1.01,r=radius-0.75,$fn=16);
+	
+				translate([motor_hole(hole)[0]-slot_left,motor_hole(hole)[1]-radius+0.75,0])
+				cube([slot_left+slot_right,radius*2-1.5,screw_head_recess_depth+1.01]);
+			}
 		}
 	}
 }
