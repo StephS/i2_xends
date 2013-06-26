@@ -49,17 +49,17 @@ wade(hotend_mount=groovemount, legacy_mount=false);
 //wade(hotend_mount=arcol_mount, legacy_mount=false);
 //wade(hotend_mount=grrf_peek_mount, legacy_mount=false);
 
-
+/*
 ////////// RENDER BEARING WASHER ///////////////////////////////////////////////////
-translate([-15,45,0])								// POSITIONING
+translate([-15,0,0])								// POSITIONING
 	bearing_washer();
 
 
 ////////// RENDER IDLER /////////////////////////////////////////////////////////////////////
-translate([79+extra_gear_separation,-10,16.20])		// POSITIONING
+translate([idler_short_side+extra_gear_separation,-idler_long_side,16.20])		// POSITIONING
 	rotate([0,-90,0])
 		wadeidler();
-
+*/
 
 
 
@@ -452,7 +452,7 @@ module block_holes(legacy_mount=false){
 		translate([-gear_separation,0,0]){
 			rotate([0,180,0])
 			translate([0,0,1])
-			import_stl("wade-large.stl");
+			import("wade-large.stl");
 
 			// Open the top to remove overhangs and to provide access to the hobbing.
 			translate([-wade_block_width+2,0,9.5])
@@ -517,7 +517,7 @@ module block_holes(legacy_mount=false){
 
 		}
 %		translate([0,0,-8])
-		import_stl("wade-small.stl");
+		import("wade-small.stl");
 	}
 
 	// Idler mounting holes and nut traps.
