@@ -43,13 +43,12 @@ less_idler_bolt_dist = 0;
 
 
 ////////// RENDER EXTRUDER //////////////////////////////////////////////////////////////
-wade(hotend_mount=groovemount, legacy_mount=false);
+//wade(hotend_mount=groovemount, legacy_mount=false);
 //wade(hotend_mount=reprapfaborg_mount, legacy_mount=false);
 //wade(hotend_mount=jhead_mount, legacy_mount=false);
 //wade(hotend_mount=arcol_mount, legacy_mount=false);
 //wade(hotend_mount=grrf_peek_mount, legacy_mount=false);
 
-/*
 ////////// RENDER BEARING WASHER ///////////////////////////////////////////////////
 translate([-15,0,0])								// POSITIONING
 	bearing_washer();
@@ -59,7 +58,6 @@ translate([-15,0,0])								// POSITIONING
 translate([idler_short_side+extra_gear_separation,-idler_long_side,16.20])		// POSITIONING
 	rotate([0,-90,0])
 		wadeidler();
-*/
 
 
 
@@ -168,7 +166,7 @@ hole_for_608=22.6;
 
 block_top_right=[wade_block_width,wade_block_height];
 
-layer_thickness=0.25;
+layer_thickness=0.3;
 filament_feed_hole_d=3.5;
 filament_diameter=3;
 filament_feed_hole_offset=filament_diameter+1.5;
@@ -319,9 +317,10 @@ module wade (hotend_mount=0,legacy_mount=false){
 				}
 			}
 			
+			// bearing hole support
 			translate(motor_mount_translation)
 				translate([-gear_separation,0,0])
-					cylinder(r=hole_for_608/2+1,h=8+layer_thickness+0.1,$fn=60);
+					cylinder(r=hole_for_608/2+2,h=8+layer_thickness+0.1,$fn=60);
 			/*
 			// The idler hinge support.
 			translate(idler_fulcrum){
@@ -607,13 +606,13 @@ module motor_mount_holes(){
 						screw_head_recess_depth+1]);
 				}
 			
-				translate([motor_hole(hole)[0]-slot_left,motor_hole(hole)[1],0])
-				cylinder(h=screw_head_recess_depth+1.01,r=radius-0.75,$fn=16);
-				translate([motor_hole(hole)[0]+slot_right,motor_hole(hole)[1],0])
-				cylinder(h=screw_head_recess_depth+1.01,r=radius-0.75,$fn=16);
+				translate([motor_hole(hole)[0]-slot_left,motor_hole(hole)[1],-0.01])
+				cylinder(h=screw_head_recess_depth+1.02,r=radius-0.5,$fn=16);
+				translate([motor_hole(hole)[0]+slot_right,motor_hole(hole)[1],-0.01])
+				cylinder(h=screw_head_recess_depth+1.02,r=radius-0.5,$fn=16);
 	
-				translate([motor_hole(hole)[0]-slot_left,motor_hole(hole)[1]-radius+0.75,0])
-				cube([slot_left+slot_right,radius*2-1.5,screw_head_recess_depth+1.01]);
+				translate([motor_hole(hole)[0]-slot_left,motor_hole(hole)[1]-radius+0.5,-0.01])
+				cube([slot_left+slot_right,radius*2-1,screw_head_recess_depth+1.02]);
 			}
 		}
 	}

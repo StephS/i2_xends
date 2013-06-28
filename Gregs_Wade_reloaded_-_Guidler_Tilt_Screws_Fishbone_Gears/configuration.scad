@@ -1,7 +1,7 @@
 // PRUSA Mendel  
 // Configuration file
 // GNU GPL v2
-// Josef Průša
+// Josef Pr?ša
 // josefprusa@me.com
 // prusadjs.cz
 // http://www.reprap.org/wiki/Prusa_Mendel
