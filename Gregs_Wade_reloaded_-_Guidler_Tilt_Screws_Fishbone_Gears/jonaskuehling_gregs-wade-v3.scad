@@ -43,12 +43,13 @@ less_idler_bolt_dist = 0;
 
 
 ////////// RENDER EXTRUDER //////////////////////////////////////////////////////////////
-//wade(hotend_mount=groovemount, legacy_mount=false);
+wade(hotend_mount=groovemount, legacy_mount=false);
 //wade(hotend_mount=reprapfaborg_mount, legacy_mount=false);
 //wade(hotend_mount=jhead_mount, legacy_mount=false);
 //wade(hotend_mount=arcol_mount, legacy_mount=false);
 //wade(hotend_mount=grrf_peek_mount, legacy_mount=false);
 
+/*
 ////////// RENDER BEARING WASHER ///////////////////////////////////////////////////
 translate([-15,0,0])								// POSITIONING
 	bearing_washer();
@@ -58,7 +59,7 @@ translate([-15,0,0])								// POSITIONING
 translate([idler_short_side+extra_gear_separation,-idler_long_side,16.20])		// POSITIONING
 	rotate([0,-90,0])
 		wadeidler();
-
+*/
 
 
 
@@ -158,7 +159,7 @@ screw_head_recess_depth=3;
 
 motor_mount_rotation=25;
 motor_mount_translation=[50.5+extra_gear_separation,34+elevation,0];
-motor_mount_thickness=8;
+motor_mount_thickness=9.5;
 
 m8_clearance_hole=8.8;
 hole_for_608=22.6;
@@ -571,6 +572,8 @@ module motor_mount(){
 	}
 }
 
+function avgvector(v1=[10, 10, 10], v2=[20, 20, 20]) = [(v1[0]+v2[0])/2, (v1[1]+v2[1])/2, (v1[2]+v2[2])/2];
+
 module motor_mount_holes(){
 	radius=4/2;
 	slot_left=1;
@@ -587,6 +590,16 @@ module motor_mount_holes(){
 			translate([motor_hole(hole)[0]-slot_left,motor_hole(hole)[1]-radius,0])
 			cube([slot_left+slot_right,radius*2,motor_mount_thickness-screw_head_recess_depth]);
 		}
+		translate(
+			avgvector([motor_hole(0)[0]-slot_left+1,motor_hole(0)[1],-1],
+			 [motor_hole(2)[0]-slot_left+1,motor_hole(2)[1],-1])
+			)
+			cylinder(h=motor_mount_thickness+2,r=15, $fa=1);
+		translate(
+			avgvector([motor_hole(0)[0]+slot_right,motor_hole(0)[1],-1],
+			 [motor_hole(2)[0]+slot_right,motor_hole(2)[1],-1])
+			)
+			cylinder(h=motor_mount_thickness+2,r=15, $fa=1);
 
 		translate([0,0,-1])
 		for (hole=[0:2]){
