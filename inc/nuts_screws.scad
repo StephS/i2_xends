@@ -415,6 +415,7 @@ washer_M4 =   [ 4.3,    9, 0.8, 1];
 washer_M5 =   [ 5.3,   10, 1.0, 1];
 washer_M6 =   [ 6.4, 12.5, 1.6, 1];
 washer_M8 =   [ 8.4,   17, 1.6, 1];
+washer_M8_double = [ 8.4,   17, 3.2, 1];
 washer_M10 =  [10.5,   21,   2, 1];
 
 // Metric Fender washers

@@ -14,7 +14,7 @@ use <inc/drivetrain.scad>
 module z_motor_mount(){
 	difference(){
 		union(){
-			translate([0,0,stepper_motor_padded/2+z_motor_mount_clamp_wall_thickness]) rotate ([0,-90,0]) motor_plate(thickness=z_motor_mount_thickness, width=stepper_motor_padded, slot_length=0, vertical=[0,0,0,0], head_drop=0, hole_support=false, inwards_slot=false, $fn=12);
+			translate([0,0,stepper_motor_padded/2+z_motor_mount_clamp_wall_thickness]) rotate ([0,-90,0]) motor_plate(thickness=z_motor_mount_thickness, width=stepper_motor_padded+0.1, slot_length=0, vertical=[0,0,0,0], head_drop=0, hole_support=false, inwards_slot=false, $fn=12);
 			
 			// connect the motor mount to the sides.
 			translate([-z_motor_mount_thickness,stepper_motor_padded/2-0.1,0]) cube([z_motor_mount_thickness,z_motor_mount_width/2+0.1, z_motor_mount_height]);

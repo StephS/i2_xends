@@ -232,7 +232,7 @@ module linear(conf_b = bushing_x, h = bushing_x[2]+bushing_retainer_add, center=
 //linear_bearing(conf_b=bushing, h=bushing_holder_height);
 
 //translate([0,0,(bushing_x[2]+bushing_retainer_add)/2])
-z_linear_bearing_clamp();
+y_linear_bearing_clamp();
 //linear(conf_b = bushing_x, center=true, wide_base=true);
     //translate([0,52,0]) bearing_clamp2(w1=30,w2=20 );
     //linear(bushing_x, 86);
