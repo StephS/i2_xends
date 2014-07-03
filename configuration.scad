@@ -12,7 +12,7 @@
 // functions
 include <inc/functions.scad>;
 include <inc/nuts_screws.scad>;
-include <inc/conf_bushing.scad>;
+include <inc/conf_linear_bearing.scad>;
 include <inc/conf_bearing.scad>;
 include <inc/belts_pulleys.scad>;
 include <printer_conf.scad>;
@@ -31,8 +31,9 @@ rod_allowance=0.2;
 max_bushing_outside_diameter = 22;
 max_bushing_length = 30;
 bushing_retainer_add=(9*layer_height);
-bushing_clamp_outer_radius_add1=((4*single_wall_width) < 2) ? floor(2/single_wall_width)*single_wall_width : (4*single_wall_width);
-bushing_clamp_outer_radius_add=((4*single_wall_width) > 2.7) ? floor(2.6/single_wall_width)*single_wall_width : bushing_clamp_outer_radius_add1;
+bushing_clamp_outer_radius_add1=((4*single_wall_width) < 3) ? floor(3/single_wall_width)*single_wall_width : (4*single_wall_width);
+bushing_clamp_outer_radius_add=((4*single_wall_width) > 3.7) ? floor(3.6/single_wall_width)*single_wall_width : (bushing_clamp_outer_radius_add1);
+echo("bushing_clamp_outer_radius_add = ", bushing_clamp_outer_radius_add);
 
 // Select your belt type ***********************
 //T2.5 conf_belt_T2_5
@@ -64,7 +65,7 @@ conf_fan_40mm = [ 32, 40, 10];
 // *********************************************
 
 frame_center_cutout_width = 110;
-frame_threaded_rod=screw_M8;
+frame_threaded_rod=rod_M8;
 frame_threaded_rod_diameter = 8;
 frame_threaded_rod_allowance = 0.2;
 
@@ -113,7 +114,7 @@ end_stop_button_loc_from_screw = 3;
 // *********************************************
 // Z Axis configuration
 // *********************************************
-lead_screw = screw_M6;
+lead_screw = rod_M6;
 lead_screw_nut = nut_M6;
 lead_screw_nut_support_outer_dia = (nut_outer_dia(v_nut_hole(lead_screw_nut))+6);
 
@@ -129,8 +130,8 @@ lead_screw_y_offset=3;
 z_bushing_mounting_screw = screw_M4_socket_head;
 z_bushing_mounting_nut = nut_M4;
 
-bushing_z = conf_b_lm8uu;
-z_axis_smooth_rod_diameter = (bushing_z[0]*2);
+bushing_z = conf_lb_lm8uu;
+z_axis_smooth_rod_diameter = conf_lb_rod_dia(bushing_z);
 
 bushing_rod_to_wall = 16;
 
@@ -151,15 +152,15 @@ z_motor_mount_clamp_height = v_rod_hole(d=z_axis_smooth_rod_diameter, $fn=10, ho
 // X Axis configuration
 // *********************************************
 x_axis_smooth_rod_separation = 50;
-bushing_x = conf_b_lm8uu;
-x_axis_smooth_rod_diameter = (bushing_x[0]*2);;
+bushing_x = conf_lb_lm8uu;
+x_axis_smooth_rod_diameter = conf_lb_rod_dia(bushing_x);
 
 // X-Carriage Configuration
 x_carriage_base_length = 80;
-x_carriage_base_width = (bushing_x[1] + bushing_clamp_outer_radius_add)*2+x_axis_smooth_rod_separation;
+x_carriage_base_width = (conf_lb_out_dia(bushing_x)/2 + bushing_clamp_outer_radius_add)*2+x_axis_smooth_rod_separation;
 x_carriage_base_height = 5;
 x_carriage_base_size= [x_carriage_base_width, x_carriage_base_length, x_carriage_base_height];
-x_carriage_base_support_thickness = 5;
+x_carriage_base_support_thickness = 3;
 
 x_carriage_belt_clamp_thickness = 5;
 x_carriage_belt_clamp_screw=screw_M3_socket_head;
@@ -218,7 +219,7 @@ y_bushing_mounting_screw = screw_M4_socket_head;
 y_bushing_mounting_nut = nut_M4;
 y_bushing_mount_hole_spacing = 28;
 y_bushing_mount_thickness = 5;
-bushing_y = conf_b_lm8uu;
+bushing_y = conf_lb_lm8uu;
 
 y_belt_clamp_thickness = 5;
 y_belt_clamp_screw=screw_M3_socket_head;

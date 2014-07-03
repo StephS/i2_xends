@@ -2,7 +2,8 @@ include <configuration.scad>
 use <bushing.scad>
 use <end_stop_holder.scad>
 use <inc/drivetrain.scad>
-include <inc/nuts_screws.scad>;
+use <inc/motors.scad>
+include <inc/nuts_screws.scad>
 
 z_end_stop_loc_y= (x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw_y_offset)+(v_rod_hole(d=z_axis_smooth_rod_diameter)/2+frame_threaded_to_smooth_rod_clamp_wall_thickness)-end_stop_mount_thickness-end_stop_size[1]/2;
 z_end_stop_loc_x=-(-(v_rod_hole(d=z_axis_smooth_rod_diameter)/2+frame_threaded_to_smooth_rod_clamp_wall_thickness)-end_stop_plate_size[0]-end_stop_plate_offset)-(end_stop_plate_size[0]-end_stop_hole_spacing[0])/2-end_stop_button_loc_from_screw;
@@ -99,8 +100,8 @@ module x_end_idler() {
 			
 			//front idler wall bridge
 			difference() {
-				translate([x_end_base_size[0]/2-x_end_idler_wall_thickness-7,x_end_base_size[1]/4,x_end_idler_wall_height/2+x_end_base_size[2]/2-0.005]) cube_fillet([14,x_end_base_size[1]/2,x_end_idler_wall_height-x_end_base_size[2]+0.01], center=true, vertical=[0,0,0,0], top=[bearing_out_dia(x_end_idler_bearing)/2,0,0,0]);	//idler wall
-				translate([x_end_base_size[0]/2-x_end_idler_wall_thickness-12-1,x_end_base_size[1]/2+3,x_end_base_size[2]-0.005]) cylinder_poly(r=13.5, h=x_end_idler_wall_height-x_end_base_size[2]+0.01);	//idler wall
+				translate([x_end_base_size[0]/2-x_end_idler_wall_thickness-8,x_end_base_size[1]/4,x_end_idler_wall_height/2+x_end_base_size[2]/2-0.005]) cube_fillet([16,x_end_base_size[1]/2,x_end_idler_wall_height-x_end_base_size[2]+0.01], center=true, vertical=[0,0,0,0], top=[bearing_out_dia(x_end_idler_bearing)/2,0,0,0]);	//idler wall
+				translate([x_end_base_size[0]/2-x_end_idler_wall_thickness-12-3.5,x_end_base_size[1]/2+4.2,x_end_base_size[2]-0.005]) cylinder_poly(r=16, h=x_end_idler_wall_height-x_end_base_size[2]+0.01);	//idler wall
 			}
 			//rear idler wall bridge
 			difference() {
@@ -145,7 +146,7 @@ module x_end_motor() {
 			translate([0,x_end_base_size[1]/2-lead_screw_y_offset,x_end_base_size[2]-0.01]) cylinder_poly(r=lead_screw_nut_support_outer_dia/2, h=20.01);
 			
 			// motor mount
-			translate([-x_end_base_size[0]/2+x_end_motor_wall_thickness,-x_end_base_size[1]/2-stepper_motor_padded/2-motor_loc,(stepper_motor_padded)/2+x_end_motor_support_height]) rotate([0, -90, 0]) motor_plate(thickness=x_end_motor_wall_thickness, width=stepper_motor_padded+0.1, slot_length=0, vertical=[0,0,0,0], head_drop=1, $fn=12);
+			translate([-x_end_base_size[0]/2,-x_end_base_size[1]/2-stepper_motor_padded/2-motor_loc,(stepper_motor_padded)/2+x_end_motor_support_height]) rotate([0, 90, 0]) motor_plate(size=[stepper_motor_padded+0.1, stepper_motor_padded+0.1, x_end_motor_wall_thickness], slot_length=0, vertical=[0,0,0,0], head_drop=1, $fn=12);
 			
 			// motor mount supports
 			translate([-x_end_base_size[0]/2,-x_end_base_size[1]/2-motor_loc+0.1/2,0]) cube_fillet([x_end_motor_wall_thickness,motor_loc+0.1,stepper_motor_padded+x_end_motor_support_height+0.1/2], vertical=[0,0,0,0], top=[3.5,0,0,0], $fn=1);
@@ -263,7 +264,7 @@ translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw
 
 // Print one of the motor and idler, two x_end_bottom, and 4 of the bearing clamps
 //linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
-//x_end_idler();
+x_end_idler();
 //x_end_motor();
 //x_end_bottom();
-x_end_bottom_endstop();
+//x_end_bottom_endstop();
