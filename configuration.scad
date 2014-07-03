@@ -168,7 +168,7 @@ x_carriage_belt_clamp_nut=nut_M3;
 x_carriage_belt_support_width=10;
 x_carriage_belt_clamp_width=12;
 // set this to the same as x_end_idler_washer
-x_carriage_belt_clamp_offset=washer_thickness(washer_M8);
+x_carriage_belt_clamp_offset=washer_thickness(washer_M8_double);
 x_carriage_belt_clamp_nut_support_outer_dia = (nut_outer_dia(v_nut_hole(x_carriage_belt_clamp_nut))+1)/2;
 x_carriage_belt_clamp_screw_offset= screw_dia(v_screw_hole(x_carriage_belt_clamp_screw))/2+0.3;
 

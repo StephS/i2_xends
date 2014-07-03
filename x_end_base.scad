@@ -264,11 +264,12 @@ translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw
 
 // Print one of the motor and idler, two x_end_bottom, and 4 of the bearing clamps
 //linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
-x_end_idler();
+
+//x_end_idler();
 //x_end_motor();
-<<<<<<< HEAD
+
 //x_end_bottom();
-=======
+
 x_end_bottom();
->>>>>>> c98bdc96f91bea60e828029b33f93d479ed357db
+
 //x_end_bottom_endstop();

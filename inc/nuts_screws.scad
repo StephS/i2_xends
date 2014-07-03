@@ -397,6 +397,7 @@ washer_M4 =   [ 4.3,    9, 0.8, "(Generic) Metric M4 Washer"];
 washer_M5 =   [ 5.3,   10, 1.0, "(Generic) Metric M5 Washer"];
 washer_M6 =   [ 6.4, 12.5, 1.6, "(Generic) Metric M6 Washer"];
 washer_M8 =   [ 8.4,   17, 1.6, "(Generic) Metric M8 Washer"];
+washer_M8_double =   [ 8.4,   17, 3.2, "(Generic) Metric M8 Washer (Doubled)"];
 washer_M10 =  [10.5,   21,   2, "(Generic) Metric M10 Washer"];
 
 // Metric Fender washers
