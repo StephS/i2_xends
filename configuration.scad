@@ -116,7 +116,7 @@ end_stop_button_loc_from_screw = 3;
 // *********************************************
 lead_screw = rod_M6;
 lead_screw_nut = nut_M6;
-lead_screw_nut_support_outer_dia = (nut_outer_dia(v_nut_hole(lead_screw_nut))+6);
+lead_screw_nut_support_outer_dia = (nut_outer_dia(v_nut_hole(lead_screw_nut))+7);
 
 lead_screw_to_smooth_rod_separation = 30;
 
@@ -201,7 +201,7 @@ x_end_bushing_mount_wall_width = (x_end_bushing_mount_hole_spacing +16);
 
 x_end_idler_screw = screw_M8_socket_head;
 x_end_idler_nut = nut_M8;
-x_end_idler_washer = washer_M8;
+x_end_idler_washer = washer_M8_double;
 x_end_idler_height = 27; // 25
 x_end_idler_bearing = bearing_608;
 x_end_idler_wall_height=z_bushing_foot_height+x_end_base_size[2]+1; //(idler_height+ bearing_out_dia(idler_bearing)/2);
@@ -217,7 +217,7 @@ smooth_rod_clamp_nut = nut_M4;
 // *********************************************
 y_bushing_mounting_screw = screw_M4_socket_head;
 y_bushing_mounting_nut = nut_M4;
-y_bushing_mount_hole_spacing = 28;
+y_bushing_mount_hole_spacing = 36;
 y_bushing_mount_thickness = 5;
 bushing_y = conf_lb_lm8uu;
 

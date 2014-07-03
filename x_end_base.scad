@@ -91,7 +91,7 @@ module x_end_idler() {
 			//#translate([(x_end_base_size[0]/2)+2+bearing_width(x_end_idler_bearing)+0.1, screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))/2, x_end_idler_height]) rotate([0,-90,0]) rotate([0,0,180/8]) cylinder_poly(r2=screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))*cos(180/8)/2+2,r1=screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))*cos(180/8)/2+3.5, h=1.1, $fn=8);
 			
 			// idler wall bottom support
-			translate([x_end_base_size[0]/2+(x_end_idler_wall_thickness+washer_thickness(x_end_idler_washer)*2+bearing_width(x_end_idler_bearing)+0.1)/2,0,x_end_base_size[2]/2]) cube_fillet([x_end_idler_wall_thickness+washer_thickness(x_end_idler_washer)*2+bearing_width(x_end_idler_bearing)+0.1,x_end_base_size[1],x_end_base_size[2]], center=true, vertical=[5,0,0,5]);
+			translate([x_end_base_size[0]/2+(x_end_idler_wall_thickness+washer_thickness(x_end_idler_washer)*2+bearing_width(x_end_idler_bearing)+0.1)/2-0.05,0,x_end_base_size[2]/2]) cube_fillet([x_end_idler_wall_thickness+washer_thickness(x_end_idler_washer)*2+bearing_width(x_end_idler_bearing)+0.1+0.1,x_end_base_size[1],x_end_base_size[2]], center=true, vertical=[5,0,0,5]);
 			
 			// idler wall rear support
 			translate([x_end_base_size[0]/2+(washer_thickness(x_end_idler_washer)*2+bearing_width(x_end_idler_bearing)+0.1)/2,-x_end_base_size[1]/2+x_end_idler_wall_thickness/2,x_end_idler_wall_height/2+x_end_base_size[2]/2-0.005]) cube_fillet([washer_thickness(x_end_idler_washer)*2+bearing_width(x_end_idler_bearing)+0.1,x_end_idler_wall_thickness,x_end_idler_wall_height-x_end_base_size[2]+0.01], vertical=[0,0,0,0], top=[0,0,bearing_out_dia(x_end_idler_bearing)/2,0], center=true);
@@ -115,7 +115,7 @@ module x_end_idler() {
 		translate([0,0,x_end_base_size[2]+1]) bushing_mount_screws(screw_length=12);
 		
 		// idler screw hole
-		translate([(x_end_base_size[0]/2+x_end_idler_wall_thickness+2+bearing_width(x_end_idler_bearing)+0.1), screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))/2, x_end_idler_height]) rotate([0,-90,0]) screw_hole(type=x_end_idler_screw, h=12+x_end_idler_wall_thickness*2+washer_thickness(x_end_idler_washer)*2+bearing_width(x_end_idler_bearing)+0.1, $fn=8);
+		#translate([(x_end_base_size[0]/2+x_end_idler_wall_thickness+2+bearing_width(x_end_idler_bearing)+0.1)+washer_thickness(x_end_idler_washer)*2, screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))/2, x_end_idler_height]) rotate([0,-90,0]) screw_hole(type=x_end_idler_screw, h=12+x_end_idler_wall_thickness*2+washer_thickness(x_end_idler_washer)*2+bearing_width(x_end_idler_bearing)+0.1, $fn=8);
 		
 		// cutout for screw hole
 		translate([(x_end_base_size[0]/2)-12/2-x_end_idler_wall_thickness-0.01, screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))/4, x_end_idler_height]) cube([12,screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))/2+0.02,screw_dia(v_screw_hole(x_end_idler_screw, $fn=8))*cos(180/8)],center=true);
@@ -266,5 +266,9 @@ translate([0,x_end_base_size[1]/2-lead_screw_to_smooth_rod_separation-lead_screw
 //linear_bearing_clamp_with_foot(length=z_bushing_foot_height);
 x_end_idler();
 //x_end_motor();
+<<<<<<< HEAD
 //x_end_bottom();
+=======
+x_end_bottom();
+>>>>>>> c98bdc96f91bea60e828029b33f93d479ed357db
 //x_end_bottom_endstop();
