@@ -169,7 +169,7 @@ module cube_fillet_inside(size, radius=-1, vertical=[0,0,0,0], top=[0,0,0,0], bo
 }
 
 module cylinder_fillet_inside(h=10, r=10, top=3, bottom=3, $fn=0, fillet_fn=0, center=false){
-	c_fn=($fn>0) ? $fn : poly_sides(r);
+	c_fn=($fn>0) ? $fn : poly_sides_r(r);
 	rotfix=(($fn>0) ? 0 : 180/c_fn);
 	cent=(center) ? -h/2 : 0;
 	echo (c_fn);
@@ -186,7 +186,7 @@ module cylinder_fillet_inside(h=10, r=10, top=3, bottom=3, $fn=0, fillet_fn=0, c
 }
 
 module cylinder_fillet_outside(h=10, r=10, top=3, bottom=3, $fn=0, fillet_fn=0, center=false){
-	c_fn=($fn>0) ? $fn : poly_sides(r);
+	c_fn=($fn>0) ? $fn : poly_sides_r(r);
 	rotfix=(($fn>0) ? 0 : 180/c_fn);
 	cent=(center) ? -h/2 : 0;
 	echo (c_fn);
